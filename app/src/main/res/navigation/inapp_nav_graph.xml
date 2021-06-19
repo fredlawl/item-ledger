@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/inapp_nav_graph"
+    app:startDestination="@id/Inventory"
+    android:label="In App Nav Graph">
+
+    <fragment
+        android:id="@+id/Inventory"
+        android:name="com.fredlawl.itemledger.Inventory"
+        android:label="Inventory"
+        tools:layout="@layout/fragment_inventory">
+
+        <action
+            android:id="@+id/action_new_character"
+            app:destination="@+id/NewCharacter" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/NewCharacter"
+        android:name="com.fredlawl.itemledger.NewCharacter"
+        android:label="Inventory"
+        tools:layout="@layout/fragment_new_character_form">
+    </fragment>
+
+</navigation>

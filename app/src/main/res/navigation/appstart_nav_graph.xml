@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/appstart_nav_graph"
+    app:startDestination="@id/NewCharacter"
+    android:label="Start State">
+
+    <fragment
+        android:id="@+id/NewCharacter"
+        android:name="com.fredlawl.itemledger.NewCharacter"
+        android:label="New Character"
+        tools:layout="@layout/fragment_new_character_form">
+    </fragment>
+
+</navigation>

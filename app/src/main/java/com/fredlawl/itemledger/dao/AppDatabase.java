@@ -13,8 +13,11 @@ import com.fredlawl.itemledger.entity.Transaction;
 @Database(entities = {
     Character.class,
     Transaction.class
-}, version = 1)
-@TypeConverters({Converters.class})
+}, views = {InventoryItem.class}, version = 1)
+@TypeConverters({
+    UUIDConverter.class,
+    InstantConverter.class
+})
 public abstract class AppDatabase extends RoomDatabase {
     public static final String DB_NAME = "itemledger.db";
     private static volatile AppDatabase instance = null;

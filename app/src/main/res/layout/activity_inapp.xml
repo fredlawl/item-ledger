@@ -6,19 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".InAppActivity">
 
-    <androidx.fragment.app.FragmentContainerView
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:id="@+id/inapp_nav_host"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        app:defaultNavHost="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:navGraph="@navigation/inapp_nav_graph" />
-
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/inapp_appBarLayout"
         android:layout_width="match_parent"
@@ -36,6 +23,18 @@
             app:popupTheme="@style/Theme.ItemLedger.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:id="@+id/inapp_nav_host"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toTopOf="@id/inapp_appBarLayout"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:navGraph="@navigation/inapp_nav_graph" />
 
 
     <com.google.android.material.bottomappbar.BottomAppBar
@@ -59,6 +58,7 @@
     </com.google.android.material.bottomappbar.BottomAppBar>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fbNewTransaction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_anchor="@id/bottomAppBar"

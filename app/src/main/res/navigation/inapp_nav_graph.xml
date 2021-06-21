@@ -20,12 +20,23 @@
         tools:layout="@layout/fragment_ledger">
     </fragment>
 
+    <fragment
+        android:id="@+id/NewTransaction"
+        android:name="com.fredlawl.itemledger.ledger.NewTransactionFormFragment"
+        android:label="New Transaction"
+        tools:layout="@layout/fragment_new_transaction_form">
+    </fragment>
+
     <action
         android:id="@+id/bottom_nav_item_inventory"
-        app:destination="@+id/Inventory" />
+        app:destination="@+id/Inventory"
+        app:popUpTo="@+id/Inventory"
+        app:popUpToInclusive="true"/>
 
     <action
         android:id="@+id/bottom_nav_item_ledger"
-        app:destination="@+id/Ledger" />
+        app:destination="@+id/Ledger"
+        app:popUpTo="@+id/Ledger"
+        app:popUpToInclusive="true" />
 
 </navigation>

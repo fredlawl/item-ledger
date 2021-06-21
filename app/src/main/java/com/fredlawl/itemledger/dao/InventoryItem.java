@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@DatabaseView("SELECT t.character_id, t.item, SUM(t.quantity) AS qt "
+@DatabaseView("SELECT t.character_id, t.item, SUM(t.quantity) AS qty "
             + "FROM `Transaction` t "
             + "GROUP BY t.character_id, t.item")
 public class InventoryItem {

@@ -8,21 +8,24 @@
 
     <fragment
         android:id="@+id/Inventory"
-        android:name="com.fredlawl.itemledger.Inventory"
+        android:name="com.fredlawl.itemledger.inventory.InventoryFragment"
         android:label="Inventory"
         tools:layout="@layout/fragment_inventory">
-
-        <action
-            android:id="@+id/action_new_character"
-            app:destination="@+id/NewCharacter" />
-
     </fragment>
 
     <fragment
-        android:id="@+id/NewCharacter"
-        android:name="com.fredlawl.itemledger.NewCharacter"
-        android:label="Inventory"
-        tools:layout="@layout/fragment_new_character_form">
+        android:id="@+id/Ledger"
+        android:name="com.fredlawl.itemledger.ledger.LedgerFragment"
+        android:label="Ledger"
+        tools:layout="@layout/fragment_ledger">
     </fragment>
+
+    <action
+        android:id="@+id/bottom_nav_item_inventory"
+        app:destination="@+id/Inventory" />
+
+    <action
+        android:id="@+id/bottom_nav_item_ledger"
+        app:destination="@+id/Ledger" />
 
 </navigation>

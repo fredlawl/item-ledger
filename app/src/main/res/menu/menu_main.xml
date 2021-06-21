@@ -1,7 +1,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.fredlawl.itemledger.AppStartActivity">
+    tools:context=".character.NewCharacterActivity">
+
+    <item
+        android:id="@+id/action_choose_character"
+        android:icon="@drawable/ic_baseline_people_alt_24"
+        android:orderInCategory="100"
+        android:title="Choose Character"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_new_character"
+        android:orderInCategory="100"
+        android:title="New Character"
+        app:showAsAction="never" />
+
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"

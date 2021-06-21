@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/Inventory"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_view_comfy_24"
+        android:title="Inventory"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/Ledger"
+        android:icon="@drawable/ic_baseline_view_list_24"
+        android:title="Ledger"
+        app:showAsAction="always" />
+
+</menu>

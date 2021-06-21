@@ -4,33 +4,59 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.fredlawl.itemledger.databinding.ActivityInappBinding;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class InAppActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
-    private ActivityInappBinding binding;
+    private NavController navController;
+    Toolbar mainNavigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityInappBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        setContentView(R.layout.activity_inapp);
 
-        setSupportActionBar(binding.inappToolbar);
+        mainNavigation = findViewById(R.id.inapp_toolbar);
+        setSupportActionBar(mainNavigation);
 
-        NavHostFragment nav = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.inapp_nav_host);
-        NavController navController = nav.getNavController();
-        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        // Even though "inventory" is selected on app startup on first destination, it gets overwritten somewhere.
+        mainNavigation.setTitle("Inventory");
+
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
+            .findFragmentById(R.id.inapp_nav_host);
+        navController = navHostFragment.getNavController();
+        BottomNavigationView bottomNav = findViewById(R.id.inapp_bottomAppBar_view);
+        NavigationUI.setupWithNavController(bottomNav, navController);
+
+        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph())
+            .build();
+
+        // Update the title whenever navigation happens
+        navController.addOnDestinationChangedListener((c, d, a) -> {
+            mainNavigation.setTitle(d.getLabel());
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Even though "inventory" is selected on app startup on first destination, it gets overwritten on resume
+        mainNavigation.setTitle("Inventory");
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        return NavigationUI.navigateUp(navController, appBarConfiguration);
     }
 
     @Override
@@ -53,13 +79,6 @@ public class InAppActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.appstart_nav_host);
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
-                || super.onSupportNavigateUp();
     }
 
     @Override

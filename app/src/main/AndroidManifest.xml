@@ -11,7 +11,7 @@
         android:theme="@style/Theme.ItemLedger">
 
         <activity
-            android:name=".AppStartActivity"
+            android:name=".character.NewCharacterActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.ItemLedger.NoActionBar">
             <intent-filter>

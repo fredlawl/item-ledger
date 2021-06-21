@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".character.NewCharacterActivity">
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fc_new_character_form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:name="com.fredlawl.itemledger.character.NewCharacterFormFragment"
+        android:layout="@layout/fragment_new_character_form" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

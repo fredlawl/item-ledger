@@ -1,4 +1,4 @@
-package com.fredlawl.itemledger;
+package com.fredlawl.itemledger.character;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.fredlawl.itemledger.InAppActivity;
 import com.fredlawl.itemledger.dao.AppDatabase;
 import com.fredlawl.itemledger.dao.CharacterDao;
 import com.fredlawl.itemledger.databinding.FragmentNewCharacterFormBinding;
@@ -21,7 +22,7 @@ import java.util.Objects;
 import static com.fredlawl.itemledger.SharedPrefConstants.FILE;
 import static com.fredlawl.itemledger.SharedPrefConstants.SELECTED_CHARACTER_ID;
 
-public class NewCharacter extends Fragment {
+public class NewCharacterFormFragment extends Fragment {
 
     private FragmentNewCharacterFormBinding binding;
 
@@ -41,20 +42,27 @@ public class NewCharacter extends Fragment {
         SharedPreferences preferences = getActivity().getSharedPreferences(FILE, Context.MODE_PRIVATE);
 
         binding.bSave.setOnClickListener(view1 -> {
+            boolean hasErrors = false;
             SharedPreferences.Editor editor = preferences.edit();
-            String character = Objects.toString(binding.tCharacterName.getText(), "").trim();
-            String campaign = Objects.toString(binding.tCampaign.getText(), "").trim();
+            String character = Objects.toString(binding.tCharacterName.getEditText().getText(), "").trim();
+            String campaign = Objects.toString(binding.tCampaign.getEditText().getText(), "").trim();
 
             if (character.isEmpty()) {
-                binding.tlCharacterName.setError("Character name is required");
+                binding.tCharacterName.setError("Character name is required");
+                hasErrors = true;
             } else {
-                binding.tlCharacterName.setError(null);
+                binding.tCharacterName.setError(null);
             }
 
             if (campaign.isEmpty()) {
-                binding.tlCampaign.setError("Campaign is required");
+                binding.tCampaign.setError("Campaign is required");
+                hasErrors = true;
             } else {
-                binding.tlCampaign.setError(null);
+                binding.tCampaign.setError(null);
+            }
+
+            if (hasErrors) {
+                return;
             }
 
             CharacterDao dao = db.characterDao();
@@ -74,7 +82,7 @@ public class NewCharacter extends Fragment {
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
         binding = null;
+        super.onDestroyView();
     }
 }

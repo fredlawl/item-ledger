@@ -1,4 +1,4 @@
-package com.fredlawl.itemledger.character;
+package com.fredlawl.itemledger;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,15 +7,13 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.fredlawl.itemledger.InAppActivity;
-import com.fredlawl.itemledger.databinding.ActivityNewCharacterBinding;
+import com.fredlawl.itemledger.databinding.ActivityAppStartBinding;
 
 import static com.fredlawl.itemledger.SharedPrefConstants.FILE;
 import static com.fredlawl.itemledger.SharedPrefConstants.SELECTED_CHARACTER_ID;
 
-// todo: rename this back to StartActivity, and move to parent folder since we'll be swapping out fragments in InAppActivity
-public class NewCharacterActivity extends AppCompatActivity {
-    private ActivityNewCharacterBinding binding;
+public class AppStartActivity extends AppCompatActivity {
+    private ActivityAppStartBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,13 +23,13 @@ public class NewCharacterActivity extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences(FILE, Context.MODE_PRIVATE);
         String characterId = preferences.getString(SELECTED_CHARACTER_ID, "");
         if (!characterId.isEmpty()) {
-            Intent k = new Intent(NewCharacterActivity.this, InAppActivity.class);
+            Intent k = new Intent(AppStartActivity.this, InAppActivity.class);
             startActivity(k);
             finish();
             return;
         }
 
-        binding = ActivityNewCharacterBinding.inflate(getLayoutInflater());
+        binding = ActivityAppStartBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
     }
 }

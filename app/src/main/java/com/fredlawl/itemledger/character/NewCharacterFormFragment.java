@@ -48,14 +48,14 @@ public class NewCharacterFormFragment extends Fragment {
             String campaign = Objects.toString(binding.tCampaign.getEditText().getText(), "").trim();
 
             if (character.isEmpty()) {
-                binding.tCharacterName.setError("Character name is required");
+                binding.tCharacterName.setError("Required");
                 hasErrors = true;
             } else {
                 binding.tCharacterName.setError(null);
             }
 
             if (campaign.isEmpty()) {
-                binding.tCampaign.setError("Campaign is required");
+                binding.tCampaign.setError("Required");
                 hasErrors = true;
             } else {
                 binding.tCampaign.setError(null);
@@ -75,8 +75,10 @@ public class NewCharacterFormFragment extends Fragment {
             editor.putString(SELECTED_CHARACTER_ID, newCharacter.getId().toString());
             editor.commit();
 
+            // todo: may want to rethink this since we're going to use recommend fragments pattern
             Intent k = new Intent(getActivity(), InAppActivity.class);
             startActivity(k);
+            getActivity().finish();
         });
     }
 

@@ -2,6 +2,7 @@ package com.fredlawl.itemledger.dao;
 
 import android.content.Context;
 
+import androidx.room.AutoMigration;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -10,10 +11,13 @@ import androidx.room.TypeConverters;
 import com.fredlawl.itemledger.entity.Character;
 import com.fredlawl.itemledger.entity.Transaction;
 
-@Database(entities = {
+@Database(
+version = 1,
+entities = {
     Character.class,
     Transaction.class
-}, views = {InventoryItem.class}, version = 1)
+},
+views = {InventoryItem.class})
 @TypeConverters({
     UUIDConverter.class,
     InstantConverter.class
@@ -39,4 +43,5 @@ public abstract class AppDatabase extends RoomDatabase {
     protected AppDatabase() {}
 
     public abstract CharacterDao characterDao();
+    public abstract TransactionDao transactionDao();
 }

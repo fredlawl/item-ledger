@@ -13,6 +13,7 @@ import com.fredlawl.itemledger.databinding.ActivityNewCharacterBinding;
 import static com.fredlawl.itemledger.SharedPrefConstants.FILE;
 import static com.fredlawl.itemledger.SharedPrefConstants.SELECTED_CHARACTER_ID;
 
+// todo: rename this back to StartActivity, and move to parent folder since we'll be swapping out fragments in InAppActivity
 public class NewCharacterActivity extends AppCompatActivity {
     private ActivityNewCharacterBinding binding;
 
@@ -26,6 +27,7 @@ public class NewCharacterActivity extends AppCompatActivity {
         if (!characterId.isEmpty()) {
             Intent k = new Intent(NewCharacterActivity.this, InAppActivity.class);
             startActivity(k);
+            finish();
             return;
         }
 

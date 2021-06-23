@@ -4,13 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".character.NewCharacterActivity">
+    tools:context=".character.NewCharacterActivity" >
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fc_new_character_form"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:name="com.fredlawl.itemledger.character.NewCharacterFormFragment"
-        android:layout="@layout/fragment_new_character_form" />
+        tools:layout="@layout/fragment_new_character_form"
+        android:layout_margin="8dp"
+        android:layout_gravity="center" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

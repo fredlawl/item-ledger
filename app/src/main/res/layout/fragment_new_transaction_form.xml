@@ -3,14 +3,31 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginHorizontal="8dp"
-    android:layout_marginVertical="8dp">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tTransactionDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:errorEnabled="true"
+            app:startIconDrawable="@drawable/ic_baseline_calendar_today_24">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Transaction Date"
+                android:inputType="date"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,9 +46,10 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:autofillHints=""
                     android:hint="Session"
-                    android:inputType="numberSigned" />
+                    android:inputType="numberSigned"
+                    android:text="0"
+                    android:selectAllOnFocus="true" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -45,34 +63,71 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:autofillHints=""
                     android:hint="Quantity"
-                    android:inputType="numberSigned" />
+                    android:inputType="numberSigned"
+                    android:text="1"
+                    android:selectAllOnFocus="true" />
 
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="vertical"-->
-<!--            android:baselineAligned="true">-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:errorEnabled="true">
 
-            <com.google.android.material.textfield.TextInputLayout
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:errorEnabled="true"
-                android:id="@+id/tItem">
+                android:hint="Item"
+                android:inputType="text"
+                android:selectAllOnFocus="true"
+                android:focusedByDefault="true">
+                <requestFocus />
+            </EditText>
 
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Item"
-                    android:inputType="text"
-                    android:autofillHints="" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-                </com.google.android.material.textfield.TextInputLayout>
-<!--        </LinearLayout>-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tMemo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:errorEnabled="true">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Memo"
+                android:inputType="text"
+                android:selectAllOnFocus="true" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/bCancel"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight=".3"
+                android:text="Cancel" />
+
+            <Button
+                android:id="@+id/bSubmit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="0dp"
+                android:layout_weight=".5"
+                android:text="Submit" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

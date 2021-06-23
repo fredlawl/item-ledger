@@ -85,9 +85,4 @@ public class InAppActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    @Override
-    public void onBackPressed() {
-
-    }
 }

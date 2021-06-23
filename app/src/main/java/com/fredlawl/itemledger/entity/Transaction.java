@@ -35,6 +35,10 @@ public class Transaction {
     @NonNull
     private Instant transactionOn;
 
+    @ColumnInfo(name = "memo")
+    @NonNull
+    private String memo;
+
     @ColumnInfo(name = "created_on")
     @NonNull
     private Instant createdOn;

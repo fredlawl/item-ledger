@@ -81,7 +81,7 @@ public class NewTransactionFormFragment extends Fragment {
             transactionDateTextLayout.getEditText().setText(dateFmt.format(calendar.getTime()));
         };
 
-        transactionDateTextLayout.setOnClickListener(v -> {
+        transactionDateTextLayout.getEditText().setOnClickListener(v -> {
             new DatePickerDialog(
                 getContext(),
                 date,

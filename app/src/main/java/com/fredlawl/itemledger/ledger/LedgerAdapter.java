@@ -25,6 +25,7 @@ public class LedgerAdapter extends RecyclerView.Adapter<LedgerAdapter.LedgerItem
         private final TextView item;
         private final TextView memo;
         private final TextView quantity;
+        private final TextView session;
 
         public LedgerItem(View view) {
             super(view);
@@ -33,6 +34,7 @@ public class LedgerAdapter extends RecyclerView.Adapter<LedgerAdapter.LedgerItem
             item = (TextView) view.findViewById(R.id.tvItem);
             memo = (TextView) view.findViewById(R.id.tvMemo);
             quantity = (TextView) view.findViewById(R.id.tvQuantity);
+            session = (TextView) view.findViewById(R.id.tvSession);
         }
     }
 
@@ -58,6 +60,7 @@ public class LedgerAdapter extends RecyclerView.Adapter<LedgerAdapter.LedgerItem
         viewHolder.getTransactionDate().setText(dateFormat.format(Date.from(transaction.getTransactionOn())));
         viewHolder.getItem().setText(transaction.getItem());
         viewHolder.getMemo().setText(transaction.getMemo());
+        viewHolder.getSession().setText(String.valueOf(transaction.getSession()));
 
         int quantity = transaction.getQuantity();
         String quantityFmt = String.valueOf(quantity);

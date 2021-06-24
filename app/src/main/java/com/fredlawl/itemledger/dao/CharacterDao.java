@@ -22,6 +22,6 @@ public interface CharacterDao {
     @Query("SELECT * FROM InventoryItem WHERE character_id = :characterId")
     List<InventoryItem> getInventory(UUID characterId);
 
-    @Insert(onConflict = OnConflictStrategy.ABORT)
-    void insertTransaction(Transaction transaction);
+    @Query("SELECT t.* FROM `Transaction` t WHERE t.character_id = :characterId ORDER BY t.session DESC, t.transaction_on DESC, t.item ASC")
+    List<Transaction> getLedger(UUID characterId);
 }

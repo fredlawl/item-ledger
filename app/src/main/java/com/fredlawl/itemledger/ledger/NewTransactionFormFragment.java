@@ -25,6 +25,7 @@ import com.fredlawl.itemledger.dao.TransactionDao;
 import com.fredlawl.itemledger.databinding.FragmentNewTransactionFormBinding;
 import com.fredlawl.itemledger.entity.Character;
 import com.fredlawl.itemledger.entity.Transaction;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -54,33 +55,33 @@ public class NewTransactionFormFragment extends Fragment {
 
         final Calendar calendar = Calendar.getInstance();
         final SimpleDateFormat dateFmt = new SimpleDateFormat("MM/dd/yyyy");
-        EditText transactionDateTextBox = binding.tTransactionDate.getEditText();
-        EditText sessionTextBox = binding.tSession.getEditText();
-        EditText quantityTextBox = binding.tQuantity.getEditText();
-        EditText itemTextBox = binding.tItem.getEditText();
-        EditText memoTextBox = binding.tMemo.getEditText();
+        TextInputLayout transactionDateTextLayout = binding.tTransactionDate;
+        TextInputLayout sessionTextLayout = binding.tSession;
+        TextInputLayout quantityTextLayout = binding.tQuantity;
+        TextInputLayout itemTextLayout = binding.tItem;
+        TextInputLayout memoTextLayout = binding.tMemo;
         AppDatabase db = AppDatabase.getInstance(getContext());
 
         SharedPreferences preferences = getContext().getSharedPreferences(FILE, Context.MODE_PRIVATE);
 
         // Get the previous session used from the last transaction
         int setSessionId = preferences.getInt(CURRENT_SESSION, 0);
-        sessionTextBox.setText(String.valueOf(setSessionId));
+        sessionTextLayout.getEditText().setText(String.valueOf(setSessionId));
 
         // todo: Consider kicking user back to the new character activity if this is not set cuz this is pretty important on app start
         UUID currentCharacter = UUID.fromString(preferences.getString(SELECTED_CHARACTER_ID, UUID.randomUUID().toString()));
 
-        transactionDateTextBox.setText(dateFmt.format(calendar.getTime()));
+        transactionDateTextLayout.getEditText().setText(dateFmt.format(calendar.getTime()));
 
         DatePickerDialog.OnDateSetListener date = (DatePicker dp, int year, int monthOfYear, int dayOfMonth) -> {
             calendar.set(Calendar.YEAR, year);
             calendar.set(Calendar.MONTH, monthOfYear);
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-            transactionDateTextBox.setText(dateFmt.format(calendar.getTime()));
+            transactionDateTextLayout.getEditText().setText(dateFmt.format(calendar.getTime()));
         };
 
-        transactionDateTextBox.setOnClickListener(v -> {
+        transactionDateTextLayout.setOnClickListener(v -> {
             new DatePickerDialog(
                 getContext(),
                 date,
@@ -102,49 +103,49 @@ public class NewTransactionFormFragment extends Fragment {
             SharedPreferences.Editor editor = preferences.edit();
             boolean hasErrors = false;
 
-            String session = Objects.toString(sessionTextBox.getText(), "");
+            String session = Objects.toString(sessionTextLayout.getEditText().getText(), "");
             if (session.isEmpty()) {
-                sessionTextBox.setError("Required");
+                sessionTextLayout.setError("Required");
                 hasErrors = true;
             } else {
                 try {
                     int parsedSession = Integer.parseInt(session);
                     if (parsedSession < 0) {
-                        sessionTextBox.setError("Required");
+                        sessionTextLayout.setError("Required");
                         hasErrors = true;
                     } else {
                         newTransaction.setSession(parsedSession);
                         editor.putInt(CURRENT_SESSION, parsedSession);
                     }
                 } catch (NumberFormatException nfe) {
-                    sessionTextBox.setError("Must be a integer");
+                    sessionTextLayout.setError("Must be a integer");
                     hasErrors = true;
                 }
             }
 
-            String quantity = Objects.toString(quantityTextBox.getText(), "");
+            String quantity = Objects.toString(quantityTextLayout.getEditText().getText(), "");
             if (quantity.isEmpty()) {
-                quantityTextBox.setError("Required");
+                quantityTextLayout.setError("Required");
                 hasErrors = true;
             } else {
                 try {
                     int parsedQuantity = Integer.parseInt(quantity);
                     newTransaction.setQuantity(parsedQuantity);
                 } catch (NumberFormatException nfe) {
-                    quantityTextBox.setError("Must be a integer");
+                    quantityTextLayout.setError("Must be a integer");
                     hasErrors = true;
                 }
             }
 
-            String item = Objects.toString(itemTextBox.getText(), "");
+            String item = Objects.toString(itemTextLayout.getEditText().getText(), "");
             if (item.isEmpty()) {
-                itemTextBox.setError("Required");
+                itemTextLayout.setError("Required");
                 hasErrors = true;
             }
 
-            String memo = Objects.toString(memoTextBox.getText(), "");
+            String memo = Objects.toString(memoTextLayout.getEditText().getText(), "");
             if (item.isEmpty()) {
-                memoTextBox.setError("Required");
+                memoTextLayout.setError("Required");
                 hasErrors = true;
             }
 

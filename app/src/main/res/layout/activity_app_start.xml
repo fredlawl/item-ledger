@@ -9,10 +9,8 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fc_new_character_form"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:name="com.fredlawl.itemledger.character.NewCharacterFormFragment"
-        tools:layout="@layout/fragment_new_character_form"
-        android:layout_margin="8dp"
-        android:layout_gravity="center" />
+        tools:layout="@layout/fragment_new_character_form" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

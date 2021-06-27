@@ -1,37 +1,33 @@
 package com.fredlawl.itemledger.ledger;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
-import android.widget.EditText;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.fredlawl.itemledger.R;
 import com.fredlawl.itemledger.dao.AppDatabase;
-import com.fredlawl.itemledger.dao.CharacterDao;
+import com.fredlawl.itemledger.dao.InventoryDao;
 import com.fredlawl.itemledger.dao.TransactionDao;
 import com.fredlawl.itemledger.databinding.FragmentNewTransactionFormBinding;
-import com.fredlawl.itemledger.entity.Character;
 import com.fredlawl.itemledger.entity.Transaction;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Objects;
-import java.util.SimpleTimeZone;
 import java.util.UUID;
 
 import static com.fredlawl.itemledger.SharedPrefConstants.CURRENT_SESSION;
@@ -40,6 +36,11 @@ import static com.fredlawl.itemledger.SharedPrefConstants.SELECTED_CHARACTER_ID;
 
 public class NewTransactionFormFragment extends Fragment {
     private FragmentNewTransactionFormBinding binding;
+    private TextInputLayout transactionDateTextLayout;
+    private TextInputLayout sessionTextLayout;
+    private TextInputLayout quantityTextLayout;
+    private TextInputLayout itemTextLayout;
+    private TextInputLayout memoTextLayout;
 
     @Override
     public View onCreateView(
@@ -47,19 +48,31 @@ public class NewTransactionFormFragment extends Fragment {
             Bundle savedInstanceState
     ) {
         binding = FragmentNewTransactionFormBinding.inflate(inflater, container, false);
+
+        transactionDateTextLayout = binding.tTransactionDate;
+        sessionTextLayout = binding.tSession;
+        quantityTextLayout = binding.tQuantity;
+        itemTextLayout = binding.tItem;
+        memoTextLayout = binding.tMemo;
+
+        AppDatabase db = AppDatabase.getInstance(getContext());
+        InventoryDao dao = db.inventoryDao();
+        String[] inventorySuggestions = dao.getNames().toArray(new String[0]);
+
+        ArrayAdapter adapter  = new ArrayAdapter(getContext(), android.R.layout.select_dialog_item, inventorySuggestions);
+        ((AutoCompleteTextView) itemTextLayout.getEditText()).setAdapter(adapter);
+        ((AutoCompleteTextView) itemTextLayout.getEditText()).setThreshold(1);
+
         return binding.getRoot();
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        itemTextLayout.getEditText().requestFocus();
+
         final Calendar calendar = Calendar.getInstance();
         final SimpleDateFormat dateFmt = new SimpleDateFormat("MM/dd/yyyy");
-        TextInputLayout transactionDateTextLayout = binding.tTransactionDate;
-        TextInputLayout sessionTextLayout = binding.tSession;
-        TextInputLayout quantityTextLayout = binding.tQuantity;
-        TextInputLayout itemTextLayout = binding.tItem;
-        TextInputLayout memoTextLayout = binding.tMemo;
         AppDatabase db = AppDatabase.getInstance(getContext());
 
         SharedPreferences preferences = getContext().getSharedPreferences(FILE, Context.MODE_PRIVATE);

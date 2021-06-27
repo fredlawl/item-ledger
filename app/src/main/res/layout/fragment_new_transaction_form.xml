@@ -77,17 +77,19 @@
             android:id="@+id/tItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:errorEnabled="true">
+            app:errorEnabled="true"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu">
 
-            <EditText
+            <AutoCompleteTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Item"
-                android:inputType="text"
+                android:inputType="text|textAutoComplete|textCapWords"
                 android:selectAllOnFocus="true"
-                android:focusedByDefault="true">
+                android:focusedByDefault="true"
+                android:focusableInTouchMode="true">
                 <requestFocus />
-            </EditText>
+            </AutoCompleteTextView>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -101,7 +103,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Memo"
-                android:inputType="text"
+                android:inputType="text|textCapSentences"
                 android:selectAllOnFocus="true" />
 
         </com.google.android.material.textfield.TextInputLayout>

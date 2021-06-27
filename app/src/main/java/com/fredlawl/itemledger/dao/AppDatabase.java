@@ -2,7 +2,6 @@ package com.fredlawl.itemledger.dao;
 
 import android.content.Context;
 
-import androidx.room.AutoMigration;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -44,4 +43,5 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract CharacterDao characterDao();
     public abstract TransactionDao transactionDao();
+    public abstract InventoryDao inventoryDao();
 }

@@ -27,6 +27,12 @@
         tools:layout="@layout/fragment_new_transaction_form">
     </fragment>
 
+    <fragment
+        android:id="@+id/Settings"
+        android:name="com.fredlawl.itemledger.SettingsFragment"
+        android:label="Settings">
+    </fragment>
+
     <action
         android:id="@+id/bottom_nav_item_inventory"
         app:destination="@+id/Inventory"

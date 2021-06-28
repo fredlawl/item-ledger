@@ -1,6 +1,9 @@
 package com.fredlawl.itemledger;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -13,6 +16,8 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import static com.fredlawl.itemledger.SharedPrefConstants.FILE;
 
 public class InAppActivity extends AppCompatActivity {
 
@@ -57,7 +62,22 @@ public class InAppActivity extends AppCompatActivity {
         super.onResume();
         // Even though "inventory" is selected on app startup on first destination, it gets overwritten on resume
         mainNavigation.setTitle("Inventory");
+        getSharedPreferences(FILE, Context.MODE_PRIVATE).registerOnSharedPreferenceChangeListener(this);
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        getSharedPreferences(FILE, Context.MODE_PRIVATE).unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals("signature")) {
+            Log.i("coolio", "Preference value was updated to: " + sharedPreferences.getString(key, ""));
+        }
+    }
+
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -80,7 +100,8 @@ public class InAppActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            navController.navigate(R.id.Settings);
+
         }
 
         return super.onOptionsItemSelected(item);

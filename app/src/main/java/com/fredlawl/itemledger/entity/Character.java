@@ -29,8 +29,13 @@ public class Character {
     @NonNull
     private Instant createdOn;
 
+    @ColumnInfo(name = "saved_session")
+    @NonNull
+    private int savedSession;
+
     public Character() {
         id = UUID.randomUUID();
         createdOn = Instant.now();
+        savedSession = 0;
     }
 }

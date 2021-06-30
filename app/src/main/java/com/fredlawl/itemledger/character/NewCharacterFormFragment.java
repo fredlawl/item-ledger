@@ -1,7 +1,6 @@
 package com.fredlawl.itemledger.character;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,7 +10,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.fredlawl.itemledger.InAppActivity;
 import com.fredlawl.itemledger.dao.AppDatabase;
 import com.fredlawl.itemledger.dao.CharacterDao;
 import com.fredlawl.itemledger.databinding.FragmentNewCharacterFormBinding;
@@ -20,10 +18,10 @@ import com.fredlawl.itemledger.entity.Character;
 import java.util.Objects;
 
 import static com.fredlawl.itemledger.SharedPrefConstants.FILE;
-import static com.fredlawl.itemledger.SharedPrefConstants.SELECTED_CHARACTER_ID;
 
 public class NewCharacterFormFragment extends Fragment {
 
+    private CharacterCreatedListener characterCreatedListener;
     private FragmentNewCharacterFormBinding binding;
 
     @Override
@@ -43,7 +41,6 @@ public class NewCharacterFormFragment extends Fragment {
 
         binding.bSave.setOnClickListener(view1 -> {
             boolean hasErrors = false;
-            SharedPreferences.Editor editor = preferences.edit();
             String character = Objects.toString(binding.tCharacterName.getEditText().getText(), "").trim();
             String campaign = Objects.toString(binding.tCampaign.getEditText().getText(), "").trim();
 
@@ -72,13 +69,12 @@ public class NewCharacterFormFragment extends Fragment {
 
             dao.insert(newCharacter);
 
-            editor.putString(SELECTED_CHARACTER_ID, newCharacter.getId().toString());
-            editor.commit();
+            new ChangeCharacter(dao, preferences)
+                .changeCharacter(newCharacter.getId());
 
-            // todo: may want to rethink this since we're going to use recommend fragments pattern
-            Intent k = new Intent(getActivity(), InAppActivity.class);
-            startActivity(k);
-            getActivity().finish();
+            if (this.characterCreatedListener != null) {
+                this.characterCreatedListener.onCharacterCreated(newCharacter);
+            }
         });
     }
 
@@ -86,5 +82,13 @@ public class NewCharacterFormFragment extends Fragment {
     public void onDestroyView() {
         binding = null;
         super.onDestroyView();
+    }
+
+    public void setOnCharacterCreatedListener(CharacterCreatedListener listener) {
+        this.characterCreatedListener = listener;
+    }
+
+    public interface CharacterCreatedListener {
+        void onCharacterCreated(Character character);
     }
 }

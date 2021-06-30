@@ -20,7 +20,6 @@ import com.fredlawl.itemledger.entity.Transaction;
 import java.util.List;
 import java.util.UUID;
 
-import static com.fredlawl.itemledger.SharedPrefConstants.CURRENT_SESSION;
 import static com.fredlawl.itemledger.SharedPrefConstants.FILE;
 import static com.fredlawl.itemledger.SharedPrefConstants.SELECTED_CHARACTER_ID;
 

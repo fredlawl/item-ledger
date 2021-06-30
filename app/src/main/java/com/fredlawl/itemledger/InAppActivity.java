@@ -1,5 +1,9 @@
 package com.fredlawl.itemledger;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,14 +15,24 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.fredlawl.itemledger.character.ChangeCharacter;
+import com.fredlawl.itemledger.dao.AppDatabase;
+import com.fredlawl.itemledger.dao.CharacterDao;
+import com.fredlawl.itemledger.entity.Character;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+
+import java.util.Optional;
+
+import static com.fredlawl.itemledger.SharedPrefConstants.FILE;
 
 public class InAppActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private NavController navController;
     Toolbar mainNavigation;
+    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +64,8 @@ public class InAppActivity extends AppCompatActivity {
         fab.setOnClickListener(v -> {
             navController.navigate(R.id.NewTransaction);
         });
+
+        preferences = getSharedPreferences(FILE, Context.MODE_PRIVATE);
     }
 
     @Override
@@ -83,6 +99,54 @@ public class InAppActivity extends AppCompatActivity {
             return true;
         }
 
+        if (id == R.id.action_choose_character) {
+            handleOnChooseCharacter();
+        }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    private void handleOnChooseCharacter() {
+        AppDatabase db = AppDatabase.getInstance(this);
+        CharacterDao dao = db.characterDao();
+
+        // TODO: I don't want to deal with a full list adapter right now, so we'll encode the characters
+        //  this will mean a huge performance boost too cus we don't need to perform an extra character
+        //  lookup to get the UUID, and don't have to worry about character names or campaigns with
+        //  the pattern <space><hyphen><space> in them.
+        String[] characters = dao.getAll().stream()
+            .map(c -> String.format("%s - %s", c.getCharacter(), c.getCampaign()))
+            .toArray(String[]::new);
+
+        AlertDialog dialog = new AlertDialog.Builder(this)
+            .setTitle("Choose a character")
+            .setItems(characters, (DialogInterface.OnClickListener) (d, which) -> {
+                String selectedCharacter = characters[which];
+                int splitIndex = selectedCharacter.indexOf(" - ", 0);
+                String characterName = selectedCharacter.substring(0, splitIndex);
+                String campaignName = selectedCharacter.substring(splitIndex + 3);
+                Optional<Character> foundCharacter = dao.getByNameAndCampaign(characterName, campaignName);
+                if (!foundCharacter.isPresent()) {
+                    d.cancel();
+                }
+
+                boolean characterChanged = new ChangeCharacter(dao, preferences)
+                    .changeCharacter(foundCharacter.get().getId());
+
+                if (!characterChanged) {
+                    Snackbar.make(
+                        findViewById(R.id.inapp_layout),
+                        "Could not change character",
+                        Snackbar.LENGTH_SHORT)
+                        .show();
+                } else {
+                    finish();
+                    startActivity(getIntent());
+                }
+            })
+            .create();
+
+        dialog.show();
+        // recreate();
     }
 }

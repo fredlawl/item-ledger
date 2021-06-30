@@ -6,12 +6,14 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
+import androidx.room.migration.Migration;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.fredlawl.itemledger.entity.Character;
 import com.fredlawl.itemledger.entity.Transaction;
 
 @Database(
-version = 1,
+version = 2,
 entities = {
     Character.class,
     Transaction.class
@@ -36,8 +38,16 @@ public abstract class AppDatabase extends RoomDatabase {
     public static AppDatabase create(final Context context) {
         return Room.databaseBuilder(context, AppDatabase.class, DB_NAME)
             .allowMainThreadQueries()
+            .addMigrations(MIGRATION_1_2)
             .build();
     }
+
+    private static final Migration MIGRATION_1_2 = new Migration(1, 2) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE Character ADD COLUMN saved_session INTEGER NOT NULL DEFAULT 0");
+        }
+    };
 
     protected AppDatabase() {}
 

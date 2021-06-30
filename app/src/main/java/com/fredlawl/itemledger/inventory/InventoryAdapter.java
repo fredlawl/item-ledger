@@ -16,7 +16,7 @@ import lombok.Getter;
 public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InventoryItem> {
 
     @Getter
-    public static class InventoryItem extends RecyclerView.ViewHolder {
+    public class InventoryItem extends RecyclerView.ViewHolder implements View.OnLongClickListener {
         private final TextView item;
         private final TextView quantity;
 
@@ -25,10 +25,25 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Inve
 
             item = (TextView) view.findViewById(R.id.tvItem);
             quantity = (TextView) view.findViewById(R.id.tvQuantity);
+            itemView.setOnLongClickListener(this);
+        }
+
+
+        @Override
+        public boolean onLongClick(View view) {
+            if (clickListener != null) {
+                clickListener.onItemClick(view, getAdapterPosition());
+            }
+            return true;
         }
     }
 
+    public interface ItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
     private final List<com.fredlawl.itemledger.dao.InventoryItem> inventoryItems;
+    private ItemClickListener clickListener;
 
     public InventoryAdapter(List<com.fredlawl.itemledger.dao.InventoryItem> inventoryItems) {
         this.inventoryItems = inventoryItems;
@@ -56,5 +71,9 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Inve
     @Override
     public int getItemCount() {
         return inventoryItems.size();
+    }
+
+    public void setClickListener(ItemClickListener clickListener) {
+        this.clickListener = clickListener;
     }
 }

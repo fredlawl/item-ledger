@@ -1,23 +1,34 @@
 package com.fredlawl.itemledger.inventory;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.fredlawl.itemledger.R;
 import com.fredlawl.itemledger.dao.AppDatabase;
 import com.fredlawl.itemledger.dao.CharacterDao;
 import com.fredlawl.itemledger.dao.InventoryItem;
 import com.fredlawl.itemledger.databinding.FragmentInventoryBinding;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import static com.fredlawl.itemledger.SharedPrefConstants.FILE;
@@ -29,6 +40,7 @@ public class InventoryFragment extends Fragment {
     protected InventoryAdapter recyclerViewAdapter;
     protected LinearLayoutManager layoutManager;
     protected List<InventoryItem> inventoryItems;
+    protected UUID currentCharacter;
 
     @Override
     public View onCreateView(
@@ -39,7 +51,7 @@ public class InventoryFragment extends Fragment {
 
         // todo: Consider kicking user back to the new character activity if this is not set cuz this is pretty important on app start
         SharedPreferences preferences = getContext().getSharedPreferences(FILE, Context.MODE_PRIVATE);
-        UUID currentCharacter = UUID.fromString(preferences.getString(SELECTED_CHARACTER_ID, UUID.randomUUID().toString()));
+        currentCharacter = UUID.fromString(preferences.getString(SELECTED_CHARACTER_ID, UUID.randomUUID().toString()));
 
         AppDatabase db = AppDatabase.getInstance(getContext());
         CharacterDao dao = db.characterDao();
@@ -56,6 +68,57 @@ public class InventoryFragment extends Fragment {
         recyclerViewAdapter = new InventoryAdapter(inventoryItems);
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.setLayoutManager(layoutManager);
+
+        recyclerViewAdapter.setClickListener((v, p) -> {
+            InventoryItem item = inventoryItems.get(p);
+
+            AlertDialog dialog = new AlertDialog.Builder(v.getContext())
+                .setView(R.layout.dialog_change_item_name)
+                .setTitle("Change the item's name?")
+                .setPositiveButton("Change Name", (d, dp) -> {})
+                .setNegativeButton("Cancel", (d, dp) -> {
+                    d.cancel();
+                })
+                .create();
+
+            dialog.setOnShowListener((d) -> {
+                TextInputLayout itemNameInputLayout = dialog.findViewById(R.id.tlItem);
+                itemNameInputLayout.getEditText().setText(item.getItem());
+            });
+
+            dialog.show();
+
+            dialog
+                .getButton(AlertDialog.BUTTON_POSITIVE)
+                .setOnClickListener((btnView) -> {
+                    TextInputLayout itemNameInputLayout = dialog.findViewById(R.id.tlItem);
+
+                    String currentItemText = item.getItem();
+                    String itemText = Objects.toString(itemNameInputLayout.getEditText().getText(), "");
+
+                    if (itemText.isEmpty()) {
+                        itemNameInputLayout.setError("Required");
+                        return;
+                    }
+
+                    if (itemText.equals(item.getItem())) {
+                        dialog.cancel();
+                    }
+
+                    AppDatabase db = AppDatabase.getInstance(getContext());
+                    db.inventoryDao().changeItemName(currentItemText, itemText);
+
+                    dialog.dismiss();
+                });
+
+            dialog.setOnDismissListener((d) -> {
+                AppDatabase db = AppDatabase.getInstance(getContext());
+                CharacterDao dao = db.characterDao();
+                inventoryItems.clear();
+                inventoryItems.addAll(dao.getInventory(currentCharacter));
+                recyclerViewAdapter.notifyDataSetChanged();
+            });
+        });
     }
 
     @Override

@@ -157,7 +157,7 @@ public class NewTransactionFormFragment extends Fragment {
             }
 
             String memo = Objects.toString(memoTextLayout.getEditText().getText(), "");
-            if (item.isEmpty()) {
+            if (memo.isEmpty()) {
                 memoTextLayout.setError("Required");
                 hasErrors = true;
             }

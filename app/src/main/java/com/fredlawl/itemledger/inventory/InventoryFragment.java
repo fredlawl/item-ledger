@@ -74,7 +74,7 @@ public class InventoryFragment extends Fragment {
 
             AlertDialog dialog = new AlertDialog.Builder(v.getContext())
                 .setView(R.layout.dialog_change_item_name)
-                .setTitle("Change the item's name?")
+                .setTitle("Change item's name?")
                 .setPositiveButton("Change Name", (d, dp) -> {})
                 .setNegativeButton("Cancel", (d, dp) -> {
                     d.cancel();

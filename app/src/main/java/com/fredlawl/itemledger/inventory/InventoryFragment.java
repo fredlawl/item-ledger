@@ -99,7 +99,7 @@ public class InventoryFragment extends Fragment {
                     }
 
                     AppDatabase db = AppDatabase.getInstance(getContext());
-                    db.inventoryDao().changeItemName(currentItemText, itemText);
+                    db.inventoryDao().changeItemName(currentCharacter, currentItemText, itemText);
 
                     dialog.dismiss();
                 });

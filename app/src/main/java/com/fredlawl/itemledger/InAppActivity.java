@@ -3,6 +3,7 @@ package com.fredlawl.itemledger;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,6 +12,7 @@ import android.view.MenuItem;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -103,6 +105,10 @@ public class InAppActivity extends AppCompatActivity {
             handleOnChooseCharacter();
         }
 
+        if (id == R.id.action_new_character) {
+            handleOnNewCharacter();
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -147,6 +153,12 @@ public class InAppActivity extends AppCompatActivity {
             .create();
 
         dialog.show();
-        // recreate();
+    }
+
+    private void handleOnNewCharacter() {
+        preferences.edit().clear().commit();
+        Intent k = new Intent(this, AppStartActivity.class);
+        startActivity(k);
+        finish();
     }
 }

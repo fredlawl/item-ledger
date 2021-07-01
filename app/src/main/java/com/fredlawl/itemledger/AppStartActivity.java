@@ -32,10 +32,5 @@ public class AppStartActivity extends AppCompatActivity {
 
         binding = ActivityAppStartBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        ((NewCharacterFormFragment) getSupportFragmentManager().findFragmentById(R.id.fc_new_character_form)).setOnCharacterCreatedListener((c) -> {
-            Intent k = new Intent(this, InAppActivity.class);
-            startActivity(k);
-            this.finish();
-        });
     }
 }

@@ -1,6 +1,7 @@
 package com.fredlawl.itemledger.character;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.fredlawl.itemledger.InAppActivity;
 import com.fredlawl.itemledger.dao.AppDatabase;
 import com.fredlawl.itemledger.dao.CharacterDao;
 import com.fredlawl.itemledger.databinding.FragmentNewCharacterFormBinding;
@@ -72,9 +74,9 @@ public class NewCharacterFormFragment extends Fragment {
             new ChangeCharacter(dao, preferences)
                 .changeCharacter(newCharacter.getId());
 
-            if (this.characterCreatedListener != null) {
-                this.characterCreatedListener.onCharacterCreated(newCharacter);
-            }
+            Intent k = new Intent(getActivity(), InAppActivity.class);
+            startActivity(k);
+            getActivity().finish();
         });
     }
 

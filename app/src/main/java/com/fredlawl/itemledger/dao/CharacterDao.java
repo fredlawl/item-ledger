@@ -34,4 +34,7 @@ public interface CharacterDao {
 
     @Query("SELECT * FROM character WHERE character = :name AND campaign = :campaign ORDER BY created_on ASC, character ASC, campaign ASC")
     Optional<Character> getByNameAndCampaign(String name, String campaign);
+
+    @Query("SELECT COUNT(*) FROM Character")
+    int hasCharacters();
 }

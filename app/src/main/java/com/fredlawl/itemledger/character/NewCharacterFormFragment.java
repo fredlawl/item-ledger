@@ -1,5 +1,6 @@
 package com.fredlawl.itemledger.character;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,10 +13,12 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.fredlawl.itemledger.InAppActivity;
+import com.fredlawl.itemledger.R;
 import com.fredlawl.itemledger.dao.AppDatabase;
 import com.fredlawl.itemledger.dao.CharacterDao;
 import com.fredlawl.itemledger.databinding.FragmentNewCharacterFormBinding;
 import com.fredlawl.itemledger.entity.Character;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Objects;
 
@@ -39,7 +42,33 @@ public class NewCharacterFormFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         AppDatabase db = AppDatabase.getInstance(getContext());
+        CharacterDao dao = db.characterDao();
         SharedPreferences preferences = getActivity().getSharedPreferences(FILE, Context.MODE_PRIVATE);
+
+        int totalCharacters = dao.hasCharacters();
+        if (totalCharacters > 0) {
+            binding.hasCharacters.setVisibility(View.VISIBLE);
+        }
+
+        binding.actionChooseCharacter.setOnClickListener((v) -> {
+            AlertDialog dialog = ChooseCharacterDialog
+                .builder(preferences)
+                .setOnCharacterChosenListener((c) -> {
+                    Intent k = new Intent(getActivity(), InAppActivity.class);
+                    startActivity(k);
+                    getActivity().finish();
+                })
+                .setOnCharacterNotChosenListener(() -> {
+                    Snackbar.make(
+                        getActivity().findViewById(R.id.app_start_layout),
+                        "Could not change character",
+                        Snackbar.LENGTH_SHORT)
+                        .show();
+                })
+                .create(getActivity());
+
+            dialog.show();
+        });
 
         binding.bSave.setOnClickListener(view1 -> {
             boolean hasErrors = false;
@@ -64,7 +93,6 @@ public class NewCharacterFormFragment extends Fragment {
                 return;
             }
 
-            CharacterDao dao = db.characterDao();
             Character newCharacter = new Character();
             newCharacter.setCampaign(campaign);
             newCharacter.setCharacter(character);

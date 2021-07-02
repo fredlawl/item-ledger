@@ -37,4 +37,7 @@ public interface CharacterDao {
 
     @Query("SELECT COUNT(*) FROM Character")
     int hasCharacters();
+
+    @Query("DELETE FROM Character WHERE character = :name AND campaign = :campaign")
+    void deleteCharacterByNameAndCampaign(String name, String campaign);
 }

@@ -26,6 +26,12 @@
             android:theme="@style/Theme.ItemLedger.NoActionBar"
             android:windowSoftInputMode="adjustResize">
         </activity>
+
+        <activity
+            android:name=".character.DeleteCharacterActivity"
+            android:theme="@style/Theme.ItemLedger.NoActionBar"
+            android:windowSoftInputMode="adjustResize">
+        </activity>
     </application>
 
 </manifest>

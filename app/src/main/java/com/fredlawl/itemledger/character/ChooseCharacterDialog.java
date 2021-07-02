@@ -43,22 +43,21 @@ public class ChooseCharacterDialog {
         //  lookup to get the UUID, and don't have to worry about character names or campaigns with
         //  the pattern <space><hyphen><space> in them.
         String[] characters = dao.getAll().stream()
-                .map(c -> String.format("%s - %s", c.getCharacter(), c.getCampaign()))
+                .map(Character::encode)
                 .toArray(String[]::new);
 
         AlertDialog dialog = new AlertDialog.Builder(context)
             .setTitle("Choose a character")
             .setItems(characters, (DialogInterface.OnClickListener) (d, which) -> {
                 String selectedCharacter = characters[which];
-                int splitIndex = selectedCharacter.indexOf(" - ", 0);
-                String characterName = selectedCharacter.substring(0, splitIndex);
-                String campaignName = selectedCharacter.substring(splitIndex + 3);
-                Optional<Character> foundCharacter = dao.getByNameAndCampaign(characterName, campaignName);
+                Character.NamePart namePart = Character.extractNamePart(selectedCharacter);
+                Optional<Character> foundCharacter = dao.getByNameAndCampaign(namePart.getCharacter(), namePart.getCampaign());
                 if (!foundCharacter.isPresent()) {
                     if (this.notChosenListener != null) {
                         this.notChosenListener.onNotChooseCharacter();
                     }
                     d.cancel();
+                    return;
                 }
 
                 Character character = foundCharacter.get();

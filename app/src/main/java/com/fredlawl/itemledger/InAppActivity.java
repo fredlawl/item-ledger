@@ -16,6 +16,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.fredlawl.itemledger.character.ChooseCharacterDialog;
+import com.fredlawl.itemledger.character.DeleteCharacterActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -101,6 +102,12 @@ public class InAppActivity extends AppCompatActivity {
 
         if (id == R.id.action_new_character) {
             handleOnNewCharacter();
+        }
+
+        if (id == R.id.action_delete_character) {
+            Intent k = new Intent(this, DeleteCharacterActivity.class);
+            startActivity(k);
+            finish();
         }
 
         return super.onOptionsItemSelected(item);

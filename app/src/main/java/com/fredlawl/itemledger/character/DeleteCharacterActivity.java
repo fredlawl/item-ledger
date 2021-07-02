@@ -74,20 +74,6 @@ public class DeleteCharacterActivity extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences(FILE, Context.MODE_PRIVATE);
         String currentCharacter = preferences.getString(SharedPrefConstants.SELECTED_CHARACTER_ID, "");
 
-        /*
-            If we attempt to delete the currently logged in character, we need to clear preferences
-            so we force users to choose a character again.
-         */
-        if (!currentCharacter.isEmpty()) {
-            UUID currentCharacterId = UUID.fromString(currentCharacter);
-            Optional<Character> character = dao.getById(currentCharacterId);
-            if (character.isPresent()) {
-                if (namePart.equals(character.get().getNamePart())) {
-                    preferences.edit().clear().commit();
-                }
-            }
-        }
-
         Executor executor = ContextCompat.getMainExecutor(this);
         BiometricPrompt biometricPrompt = new BiometricPrompt(DeleteCharacterActivity.this,
                 executor, new BiometricPrompt.AuthenticationCallback() {
@@ -104,6 +90,20 @@ public class DeleteCharacterActivity extends AppCompatActivity {
                 super.onAuthenticationSucceeded(result);
                 Toast.makeText(getApplicationContext(),
                     "Authentication succeeded!", Toast.LENGTH_SHORT).show();
+
+                /*
+                    If we attempt to delete the currently logged in character, we need to clear preferences
+                    so we force users to choose a character again.
+                 */
+                if (!currentCharacter.isEmpty()) {
+                    UUID currentCharacterId = UUID.fromString(currentCharacter);
+                    Optional<Character> character = dao.getById(currentCharacterId);
+                    if (character.isPresent()) {
+                        if (namePart.equals(character.get().getNamePart())) {
+                            preferences.edit().clear().commit();
+                        }
+                    }
+                }
 
                 dao.deleteCharacterByNameAndCampaign(namePart.getCharacter(), namePart.getCampaign());
                 transitionToStartActivity();

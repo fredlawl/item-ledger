@@ -58,7 +58,7 @@ public class NewTransactionFormFragment extends Fragment {
         InventoryDao dao = db.inventoryDao();
         String[] inventorySuggestions = dao.getNames().toArray(new String[0]);
 
-        ArrayAdapter adapter  = new ArrayAdapter(getContext(), android.R.layout.select_dialog_item, inventorySuggestions);
+        ArrayAdapter<String> adapter  = new ArrayAdapter<>(getContext(), android.R.layout.select_dialog_item, inventorySuggestions);
         ((AutoCompleteTextView) itemTextLayout.getEditText()).setAdapter(adapter);
         ((AutoCompleteTextView) itemTextLayout.getEditText()).setThreshold(1);
 

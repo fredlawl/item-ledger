@@ -28,10 +28,12 @@
     <string name="new_transaction_form.session.text">0</string>
     <string name="new_transaction_form.quantity.hint">Quantity</string>
     <string name="new_transaction_form.quantity.text">1</string>
+    <string name="new_transaction_form.quantity.insufficient_funds">Overdraft of %d</string>
     <string name="new_transaction_form.item.hint">Item</string>
     <string name="new_transaction_form.memo.hint">Memo</string>
     <string name="new_transaction_form.button.cancel">Cancel</string>
     <string name="new_transaction_form.button.submit">Submit</string>
+    <string name="new_transaction_form.item.error.message">Can\'t withdrawal from nonexistent item</string>
 
     <string name="choose_character.dialog.title">Choose a character</string>
     <string name="choose_character.dialog.error.message">Could not change character</string>

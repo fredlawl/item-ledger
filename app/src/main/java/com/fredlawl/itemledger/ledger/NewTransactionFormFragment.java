@@ -18,15 +18,19 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.fredlawl.itemledger.R;
 import com.fredlawl.itemledger.dao.AppDatabase;
+import com.fredlawl.itemledger.dao.CharacterDao;
 import com.fredlawl.itemledger.dao.InventoryDao;
+import com.fredlawl.itemledger.dao.InventoryItem;
 import com.fredlawl.itemledger.dao.TransactionDao;
 import com.fredlawl.itemledger.databinding.FragmentNewTransactionFormBinding;
 import com.fredlawl.itemledger.entity.Transaction;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 import static com.fredlawl.itemledger.SharedPrefConstants.CURRENT_SESSION;
@@ -166,10 +170,36 @@ public class NewTransactionFormFragment extends Fragment {
             }
 
             TransactionDao dao = db.transactionDao();
+            CharacterDao characterDao = db.characterDao();
+
             newTransaction.setCharacterId(currentCharacter);
             newTransaction.setItem(item);
             newTransaction.setMemo(memo);
             newTransaction.setTransactionOn(calendar.toInstant());
+
+            // Handle the case where we're trying to withdrawal more than we have available
+            if (newTransaction.getQuantity() < 0) {
+                Optional<InventoryItem> foundItem = characterDao.getItemByName(currentCharacter, item);
+                if (!foundItem.isPresent()) {
+                    Snackbar.make(
+                        getActivity().findViewById(R.id.inapp_layout),
+                        R.string.new_transaction_form_item_error_message,
+                        Snackbar.LENGTH_SHORT)
+                        .setAnchorView(R.id.fbNewTransaction)
+                        .show();
+                    return;
+                }
+
+                int currentQuantity = foundItem.get().getQuantity();
+                int diff = currentQuantity + newTransaction.getQuantity();
+                if (diff < 0) {
+                    String error = String.format(
+                        getString(R.string.new_transaction_form_quantity_insufficient_funds),
+                        -diff);
+                    quantityTextLayout.setError(error);
+                    return;
+                }
+            }
 
             dao.insert(newTransaction);
 

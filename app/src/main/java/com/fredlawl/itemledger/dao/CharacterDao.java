@@ -40,4 +40,7 @@ public interface CharacterDao {
 
     @Query("DELETE FROM Character WHERE character = :name AND campaign = :campaign")
     void deleteCharacterByNameAndCampaign(String name, String campaign);
+
+    @Query("SELECT * FROM InventoryItem WHERE character_id = :characterId AND item = :itemName AND qty > 0")
+    Optional<InventoryItem> getItemByName(UUID characterId, String itemName);
 }

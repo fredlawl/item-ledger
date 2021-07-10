@@ -7,18 +7,18 @@
         android:id="@+id/action_choose_character"
         android:icon="@drawable/ic_baseline_people_alt_24"
         android:orderInCategory="100"
-        android:title="Choose Character"
+        android:title="@string/top_menu.choose_character"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_new_character"
         android:orderInCategory="100"
-        android:title="New Character"
+        android:title="@string/top_menu.new_character"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/action_delete_character"
         android:orderInCategory="100"
-        android:title="Delete Character"
+        android:title="@string/top_menu.delete_character"
         app:showAsAction="never" />
 </menu>

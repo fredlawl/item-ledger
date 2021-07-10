@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">D&amp;D Inventory Ledger</string>
 
+    <string name="top_menu.choose_character">Choose Character</string>
+    <string name="top_menu.new_character">New Character</string>
+    <string name="top_menu.delete_character">Delete Character</string>
+
     <string name="bottom_menu.inventory">Inventory</string>
     <string name="bottom_menu.ledger">Ledger</string>
 

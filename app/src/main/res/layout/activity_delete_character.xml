@@ -59,7 +59,7 @@
                 android:layout_marginEnd="0dp"
                 android:layout_weight=".5"
                 android:text="@string/delete_character.button.delete"
-                android:backgroundTint="@color/delete_button_disabled"
+                android:backgroundTint="@color/button_state_change_warning"
                 android:enabled="false" />
 
         </LinearLayout>

@@ -13,7 +13,7 @@
         <activity
             android:name=".AppStartActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.ItemLedger.NoActionBar"
+            android:theme="@style/Theme.ItemLedger"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,13 +23,13 @@
 
         <activity
             android:name=".InAppActivity"
-            android:theme="@style/Theme.ItemLedger.NoActionBar"
+            android:theme="@style/Theme.ItemLedger"
             android:windowSoftInputMode="adjustResize">
         </activity>
 
         <activity
             android:name=".character.DeleteCharacterActivity"
-            android:theme="@style/Theme.ItemLedger.NoActionBar"
+            android:theme="@style/Theme.ItemLedger"
             android:windowSoftInputMode="adjustResize">
         </activity>
     </application>

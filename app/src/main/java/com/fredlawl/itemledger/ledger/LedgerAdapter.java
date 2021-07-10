@@ -64,11 +64,11 @@ public class LedgerAdapter extends RecyclerView.Adapter<LedgerAdapter.LedgerItem
 
         int quantity = transaction.getQuantity();
         String quantityFmt = String.valueOf(quantity);
-        if (quantity > 0) {
-            quantityFmt = "+" + quantityFmt;
-            viewHolder.getQuantity().setTextColor(Color.parseColor("#26A69A"));
-        } else {
+        if (quantity < 0) {
+            quantityFmt = "(" + (-quantity) + ")";
             viewHolder.getQuantity().setTextColor(Color.parseColor("#EF5350"));
+        } else {
+            viewHolder.getQuantity().setTextColor(Color.parseColor("#26A69A"));
         }
 
         viewHolder.getQuantity().setText(quantityFmt);

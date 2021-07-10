@@ -17,32 +17,25 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Choose a character to delete"
+            android:text="@string/delete_character.message.instructions"
             android:gravity="center"
             android:layout_marginBottom="30dp"
-            android:textSize="18dp"/>
+            android:textSize="18sp"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
-            android:hint="Character">
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu">
 
             <AutoCompleteTextView
                 android:id="@+id/actvCharacter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
-                android:inputType="none" />
+                android:inputType="none"
+                android:hint="@string/delete_character.character_name.hint" />
 
         </com.google.android.material.textfield.TextInputLayout>
-
-<!--        <Spinner-->
-<!--            android:id="@+id/actvCharacter"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:clickable="true"-->
-<!--            android:inputType="none" />-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -57,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_weight=".3"
-                android:text="Cancel" />
+                android:text="@string/delete_character.button.cancel" />
 
             <Button
                 android:id="@+id/bSubmit"
@@ -65,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="0dp"
                 android:layout_weight=".5"
-                android:text="Delete*"
+                android:text="@string/delete_character.button.delete"
                 android:backgroundTint="@color/delete_button_disabled"
                 android:enabled="false" />
 
@@ -74,7 +67,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="* This cannot be undone!"
+            android:text="@string/delete_character.message.delete_warning"
             android:gravity="center"
             android:layout_marginTop="20dp"/>
     </LinearLayout>

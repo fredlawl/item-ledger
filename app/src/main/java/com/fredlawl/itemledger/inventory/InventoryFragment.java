@@ -70,9 +70,9 @@ public class InventoryFragment extends Fragment {
 
             AlertDialog dialog = new AlertDialog.Builder(v.getContext())
                 .setView(R.layout.dialog_change_item_name)
-                .setTitle("Change item's name?")
-                .setPositiveButton("Change Name", (d, dp) -> {})
-                .setNegativeButton("Cancel", (d, dp) -> {
+                .setTitle(R.string.change_item_name_dialog_title)
+                .setPositiveButton(R.string.change_item_name_dialog_success, (d, dp) -> {})
+                .setNegativeButton(R.string.change_item_name_dialog_cancel, (d, dp) -> {
                     d.cancel();
                 })
                 .create();
@@ -93,7 +93,7 @@ public class InventoryFragment extends Fragment {
                     String itemText = Objects.toString(itemNameInputLayout.getEditText().getText(), "");
 
                     if (itemText.isEmpty()) {
-                        itemNameInputLayout.setError("Required");
+                        itemNameInputLayout.setError(getString(R.string.validation_required));
                         return;
                     }
 

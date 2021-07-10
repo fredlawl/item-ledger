@@ -22,12 +22,13 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Transaction Date"
+                android:hint="@string/new_transaction_form.transaction_date.hint"
                 android:inputType="date"
                 android:clickable="false"
                 android:cursorVisible="false"
                 android:focusable="false"
-                android:focusableInTouchMode="false"/>
+                android:focusableInTouchMode="false"
+                android:importantForAutofill="no" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -48,10 +49,11 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Session"
+                    android:hint="@string/new_transaction_form.session.hint"
                     android:inputType="numberSigned"
-                    android:text="0"
-                    android:selectAllOnFocus="true" />
+                    android:text="@string/new_transaction_form.session.text"
+                    android:selectAllOnFocus="true"
+                    android:importantForAutofill="no" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -65,10 +67,11 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Quantity"
+                    android:hint="@string/new_transaction_form.quantity.hint"
                     android:inputType="numberSigned"
-                    android:text="1"
-                    android:selectAllOnFocus="true" />
+                    android:text="@string/new_transaction_form.quantity.text"
+                    android:selectAllOnFocus="true"
+                    android:importantForAutofill="no" />
 
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
@@ -83,7 +86,7 @@
             <AutoCompleteTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Item"
+                android:hint="@string/new_transaction_form.item.hint"
                 android:inputType="text|textAutoComplete|textCapWords"
                 android:selectAllOnFocus="true"
                 android:focusedByDefault="true"
@@ -102,9 +105,10 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Memo"
+                android:hint="@string/new_transaction_form.memo.hint"
                 android:inputType="text|textCapSentences"
-                android:selectAllOnFocus="true" />
+                android:selectAllOnFocus="true"
+                android:importantForAutofill="no" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -121,7 +125,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_weight=".3"
-                android:text="Cancel" />
+                android:text="@string/new_transaction_form.button.cancel" />
 
             <Button
                 android:id="@+id/bSubmit"
@@ -129,7 +133,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="0dp"
                 android:layout_weight=".5"
-                android:text="Submit" />
+                android:text="@string/new_transaction_form.button.submit" />
 
         </LinearLayout>
 

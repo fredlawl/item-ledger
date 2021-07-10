@@ -1,12 +1,46 @@
 <resources>
     <string name="app_name">D&amp;D Inventory Ledger</string>
-    <string name="action_settings">Settings</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="bottom_menu.inventory">Inventory</string>
+    <string name="bottom_menu.ledger">Ledger</string>
+
+    <string name="inapp.default_title">Inventory</string>
+    <string name="inapp.button.new_transaction.description">Add Transaction</string>
+
+    <string name="delete_character.message.instructions">Choose a character to delete</string>
+    <string name="delete_character.character_name.hint">Character</string>
+    <string name="delete_character.button.cancel">Cancel</string>
+    <string name="delete_character.button.delete">Delete *</string>
+    <string name="delete_character.message.delete_warning">* This cannot be undone!</string>
+    <string name="delete_character.auth.title">Are you sure you want to delete this character?</string>
+    <string name="delete_character.auth.subtitle">Authenticate to confirm deletion</string>
+    <string name="delete_character.auth.error.message">Failed to confirm</string>
+    <string name="delete_character.auth.success.message">Confirmed</string>
+
+    <string name="new_character_form.character_name.hint">Character</string>
+    <string name="new_character_form.campaign_name.hint">Campaign</string>
+    <string name="new_character_form.button.create">Create</string>
+    <string name="new_character_form.message.choose_character">Already have a character?</string>
+    <string name="new_character_form.link.choose_character">Choose Character</string>
+
+    <string name="new_transaction_form.transaction_date.hint">Transaction Date</string>
+    <string name="new_transaction_form.session.hint">Session</string>
+    <string name="new_transaction_form.session.text">0</string>
+    <string name="new_transaction_form.quantity.hint">Quantity</string>
+    <string name="new_transaction_form.quantity.text">1</string>
+    <string name="new_transaction_form.item.hint">Item</string>
+    <string name="new_transaction_form.memo.hint">Memo</string>
+    <string name="new_transaction_form.button.cancel">Cancel</string>
+    <string name="new_transaction_form.button.submit">Submit</string>
+
+    <string name="choose_character.dialog.title">Choose a character</string>
+    <string name="choose_character.dialog.error.message">Could not change character</string>
+
+    <string name="change_item_name.dialog.title">Change item\'s name?</string>
+    <string name="change_item_name.dialog.cancel">Cancel</string>
+    <string name="change_item_name.dialog.success">Change Name</string>
+    <string name="change_item_name.item_name.hint">New Name</string>
+
+    <string name="validation.required">Required</string>
+    <string name="validation.integer">Must be a integer</string>
 </resources>

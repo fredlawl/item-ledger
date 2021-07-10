@@ -41,7 +41,7 @@ public class InAppActivity extends AppCompatActivity {
         setSupportActionBar(mainNavigation);
 
         // Even though "inventory" is selected on app startup on first destination, it gets overwritten somewhere.
-        mainNavigation.setTitle("Inventory");
+        mainNavigation.setTitle(R.string.inapp_default_title);
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
             .findFragmentById(R.id.inapp_nav_host);
@@ -71,7 +71,7 @@ public class InAppActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         // Even though "inventory" is selected on app startup on first destination, it gets overwritten on resume
-        mainNavigation.setTitle("Inventory");
+        mainNavigation.setTitle(R.string.inapp_default_title);
     }
 
     @Override
@@ -124,7 +124,7 @@ public class InAppActivity extends AppCompatActivity {
             .setOnCharacterNotChosenListener(() -> {
                 Snackbar.make(
                     findViewById(R.id.inapp_layout),
-                    "Could not change character",
+                    R.string.choose_character_dialog_error_message,
                     Snackbar.LENGTH_SHORT)
                     .setAnchorView(fab)
                     .show();

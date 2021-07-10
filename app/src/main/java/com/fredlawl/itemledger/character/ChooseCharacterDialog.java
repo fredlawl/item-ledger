@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 
+import com.fredlawl.itemledger.R;
 import com.fredlawl.itemledger.dao.AppDatabase;
 import com.fredlawl.itemledger.dao.CharacterDao;
 import com.fredlawl.itemledger.entity.Character;
@@ -47,7 +48,7 @@ public class ChooseCharacterDialog {
                 .toArray(String[]::new);
 
         AlertDialog dialog = new AlertDialog.Builder(context)
-            .setTitle("Choose a character")
+            .setTitle(R.string.choose_character_dialog_title)
             .setItems(characters, (DialogInterface.OnClickListener) (d, which) -> {
                 String selectedCharacter = characters[which];
                 Character.NamePart namePart = Character.extractNamePart(selectedCharacter);

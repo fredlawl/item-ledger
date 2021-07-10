@@ -13,6 +13,7 @@ import androidx.biometric.BiometricPrompt;
 import androidx.core.content.ContextCompat;
 
 import com.fredlawl.itemledger.AppStartActivity;
+import com.fredlawl.itemledger.R;
 import com.fredlawl.itemledger.SharedPrefConstants;
 import com.fredlawl.itemledger.dao.AppDatabase;
 import com.fredlawl.itemledger.dao.CharacterDao;
@@ -81,7 +82,7 @@ public class DeleteCharacterActivity extends AppCompatActivity {
             public void onAuthenticationError(int errorCode, CharSequence errString) {
                 super.onAuthenticationError(errorCode, errString);
                 Toast.makeText(getApplicationContext(),
-                    "Authentication failed", Toast.LENGTH_SHORT)
+                    R.string.delete_character_auth_error_message, Toast.LENGTH_SHORT)
                     .show();
             }
 
@@ -89,7 +90,7 @@ public class DeleteCharacterActivity extends AppCompatActivity {
             public void onAuthenticationSucceeded(BiometricPrompt.AuthenticationResult result) {
                 super.onAuthenticationSucceeded(result);
                 Toast.makeText(getApplicationContext(),
-                    "Authentication succeeded!", Toast.LENGTH_SHORT).show();
+                    R.string.delete_character_auth_success_message, Toast.LENGTH_SHORT).show();
 
                 /*
                     If we attempt to delete the currently logged in character, we need to clear preferences
@@ -112,15 +113,15 @@ public class DeleteCharacterActivity extends AppCompatActivity {
             @Override
             public void onAuthenticationFailed() {
                 super.onAuthenticationFailed();
-                Toast.makeText(getApplicationContext(), "Authentication failed",
+                Toast.makeText(getApplicationContext(), R.string.delete_character_auth_error_message,
                     Toast.LENGTH_SHORT)
                     .show();
             }
         });
 
         BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
-            .setTitle("Are you sure you want to delete this character?")
-            .setSubtitle("Authenticate to confirm deletion")
+            .setTitle(getString(R.string.delete_character_auth_title))
+            .setSubtitle(getString(R.string.delete_character_auth_subtitle))
             .setAllowedAuthenticators(BiometricManager.Authenticators.DEVICE_CREDENTIAL | BiometricManager.Authenticators.BIOMETRIC_WEAK)
             .build();
 

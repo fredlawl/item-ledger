@@ -21,23 +21,24 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Character Name"
-                android:inputType="text|textCapWords" />
+                android:hint="@string/new_character_form.character_name.hint"
+                android:inputType="text|textCapWords"
+                android:importantForAutofill="no" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/tCharacterName"
             app:errorEnabled="true"
             android:id="@+id/tCampaign">
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Campaign"
-                android:inputType="text|textCapWords"/>
+                android:hint="@string/new_character_form.campaign_name.hint"
+                android:inputType="text|textCapWords"
+                android:importantForAutofill="no" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -45,7 +46,7 @@
             android:id="@+id/bSave"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Create" />
+            android:text="@string/new_character_form.button.create" />
 
         <LinearLayout
             android:id="@+id/has_characters"
@@ -58,9 +59,9 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Already have a character?"
+                android:text="@string/new_character_form.message.choose_character"
                 android:gravity="center"
-                android:textSize="18dp"/>
+                android:textSize="18sp"/>
 
             <TextView
                 android:id="@+id/action_choose_character"
@@ -68,8 +69,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:textSize="16dp"
-                android:text="Choose Character"
+                android:textSize="16sp"
+                android:text="@string/new_character_form.link.choose_character"
                 android:textColor="@color/secondaryColor"
                 android:contextClickable="true"
                 android:background="?android:attr/selectableItemBackground"

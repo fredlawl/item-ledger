@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:text="Copper"
                 android:singleLine="true"
-                android:textSize="16dp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -40,7 +40,7 @@
             android:layout_gravity="center"
             android:singleLine="true"
             android:text="30"
-            android:textSize="24dp"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>

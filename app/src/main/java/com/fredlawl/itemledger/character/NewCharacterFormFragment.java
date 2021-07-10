@@ -61,7 +61,7 @@ public class NewCharacterFormFragment extends Fragment {
                 .setOnCharacterNotChosenListener(() -> {
                     Snackbar.make(
                         getActivity().findViewById(R.id.app_start_layout),
-                        "Could not change character",
+                        R.string.choose_character_dialog_error_message,
                         Snackbar.LENGTH_SHORT)
                         .show();
                 })
@@ -76,14 +76,14 @@ public class NewCharacterFormFragment extends Fragment {
             String campaign = Objects.toString(binding.tCampaign.getEditText().getText(), "").trim();
 
             if (character.isEmpty()) {
-                binding.tCharacterName.setError("Required");
+                binding.tCharacterName.setError(getString(R.string.validation_required));
                 hasErrors = true;
             } else {
                 binding.tCharacterName.setError(null);
             }
 
             if (campaign.isEmpty()) {
-                binding.tCampaign.setError("Required");
+                binding.tCampaign.setError(getString(R.string.validation_required));
                 hasErrors = true;
             } else {
                 binding.tCampaign.setError(null);

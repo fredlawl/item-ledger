@@ -13,4 +13,7 @@
 
     <color name="warning">#d32f2f</color>
     <color name="warningDisabled">#ef5350</color>
+
+    <color name="ledgerCredit">#26A69A</color>
+    <color name="ledgerDebt">#EF5350</color>
 </resources>

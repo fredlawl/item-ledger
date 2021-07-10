@@ -117,47 +117,47 @@ public class NewTransactionFormFragment extends Fragment {
 
             String session = Objects.toString(sessionTextLayout.getEditText().getText(), "");
             if (session.isEmpty()) {
-                sessionTextLayout.setError("Required");
+                sessionTextLayout.setError(getString(R.string.validation_required));
                 hasErrors = true;
             } else {
                 try {
                     int parsedSession = Integer.parseInt(session);
                     if (parsedSession < 0) {
-                        sessionTextLayout.setError("Required");
+                        sessionTextLayout.setError(getString(R.string.validation_required));
                         hasErrors = true;
                     } else {
                         newTransaction.setSession(parsedSession);
                         editor.putInt(CURRENT_SESSION, parsedSession);
                     }
                 } catch (NumberFormatException nfe) {
-                    sessionTextLayout.setError("Must be a integer");
+                    sessionTextLayout.setError(getString(R.string.validation_integer));
                     hasErrors = true;
                 }
             }
 
             String quantity = Objects.toString(quantityTextLayout.getEditText().getText(), "");
             if (quantity.isEmpty()) {
-                quantityTextLayout.setError("Required");
+                quantityTextLayout.setError(getString(R.string.validation_required));
                 hasErrors = true;
             } else {
                 try {
                     int parsedQuantity = Integer.parseInt(quantity);
                     newTransaction.setQuantity(parsedQuantity);
                 } catch (NumberFormatException nfe) {
-                    quantityTextLayout.setError("Must be a integer");
+                    quantityTextLayout.setError(getString(R.string.validation_integer));
                     hasErrors = true;
                 }
             }
 
             String item = Objects.toString(itemTextLayout.getEditText().getText(), "");
             if (item.isEmpty()) {
-                itemTextLayout.setError("Required");
+                itemTextLayout.setError(getString(R.string.validation_required));
                 hasErrors = true;
             }
 
             String memo = Objects.toString(memoTextLayout.getEditText().getText(), "");
             if (memo.isEmpty()) {
-                memoTextLayout.setError("Required");
+                memoTextLayout.setError(getString(R.string.validation_required));
                 hasErrors = true;
             }
 

@@ -59,6 +59,6 @@
         android:layout_height="wrap_content"
         app:layout_anchor="@id/bottomAppBar"
         app:srcCompat="@drawable/ic_baseline_add_24"
-        android:contentDescription="Add Transaction"/>
+        android:contentDescription="@string/inapp.button.new_transaction.description"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

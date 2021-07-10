@@ -7,13 +7,13 @@
         android:id="@+id/Inventory"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_view_comfy_24"
-        android:title="Inventory"
+        android:title="@string/bottom_menu.inventory"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/Ledger"
         android:icon="@drawable/ic_baseline_view_list_24"
-        android:title="Ledger"
-        app:showAsAction="always" />
+        android:title="@string/bottom_menu.ledger"
+        app:showAsAction="ifRoom" />
 
 </menu>

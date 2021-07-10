@@ -17,6 +17,8 @@ import java.util.List;
 
 import lombok.Getter;
 
+import static androidx.core.content.ContextCompat.getColor;
+
 public class LedgerAdapter extends RecyclerView.Adapter<LedgerAdapter.LedgerItem> {
 
     @Getter
@@ -47,7 +49,7 @@ public class LedgerAdapter extends RecyclerView.Adapter<LedgerAdapter.LedgerItem
     @Override
     public LedgerItem onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.fragment_ledger_item, viewGroup, false);
+                .inflate(R.layout.row_ledger_item, viewGroup, false);
 
         return new LedgerItem(view);
     }
@@ -66,9 +68,9 @@ public class LedgerAdapter extends RecyclerView.Adapter<LedgerAdapter.LedgerItem
         String quantityFmt = String.valueOf(quantity);
         if (quantity < 0) {
             quantityFmt = "(" + (-quantity) + ")";
-            viewHolder.getQuantity().setTextColor(Color.parseColor("#EF5350"));
+            viewHolder.getQuantity().setTextColor(getColor(viewHolder.getQuantity().getContext(), R.color.ledgerDebt));
         } else {
-            viewHolder.getQuantity().setTextColor(Color.parseColor("#26A69A"));
+            viewHolder.getQuantity().setTextColor(getColor(viewHolder.getQuantity().getContext(), R.color.ledgerCredit));
         }
 
         viewHolder.getQuantity().setText(quantityFmt);

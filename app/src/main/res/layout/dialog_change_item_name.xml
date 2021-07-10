@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         app:errorEnabled="true">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/change_item_name.item_name.hint"

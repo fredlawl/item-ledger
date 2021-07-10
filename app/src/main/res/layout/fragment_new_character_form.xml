@@ -18,7 +18,7 @@
             app:errorEnabled="true"
             android:id="@+id/tCharacterName">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/new_character_form.character_name.hint"
@@ -33,7 +33,7 @@
             app:errorEnabled="true"
             android:id="@+id/tCampaign">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/new_character_form.campaign_name.hint"

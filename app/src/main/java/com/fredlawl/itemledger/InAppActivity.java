@@ -59,7 +59,9 @@ public class InAppActivity extends AppCompatActivity {
 
         fab = findViewById(R.id.fbNewTransaction);
         fab.setOnClickListener(v -> {
-            navController.navigate(R.id.NewTransaction);
+            if (navController.getCurrentDestination().getId() != R.id.NewTransaction) {
+                navController.navigate(R.id.NewTransaction);
+            }
         });
 
         preferences = getSharedPreferences(FILE, Context.MODE_PRIVATE);

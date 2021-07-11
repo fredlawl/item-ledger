@@ -10,6 +10,10 @@
     <color name="secondaryTextColor">#212121</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="red">#B00020</color>
+    <color name="darkThemeRed">#CF6679</color>
+    <color name="darkThemeBackground">#121212</color>
+    <color name="darkThemeSurface">#121212</color>
 
     <color name="warning">#d32f2f</color>
     <color name="warningDisabled">#ef5350</color>

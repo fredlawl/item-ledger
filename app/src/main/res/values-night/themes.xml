@@ -2,16 +2,25 @@
     <!-- Base application theme. -->
     <style name="Theme.ItemLedger" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/primaryLightColor</item>
-        <item name="colorPrimaryVariant">@color/primaryDarkColor</item>
-        <item name="colorOnPrimary">@color/primaryTextColor</item>
-        <item name="colorAccent">@color/primaryTextColor</item>
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryVariant">@color/black</item>
+        <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/secondaryColor</item>
-        <item name="colorSecondaryVariant">@color/secondaryLightColor</item>
-        <item name="colorOnSecondary">@color/secondaryTextColor</item>
+        <item name="colorSecondaryVariant">@color/secondaryColor</item>
+        <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="android:colorBackground">@color/darkThemeBackground</item>
+        <item name="colorOnBackground">@color/white</item>
+        <item name="colorPrimarySurface">@color/darkThemeSurface</item>
+        <item name="colorOnPrimarySurface">@color/white</item>
+        <item name="colorSurface">@color/darkThemeSurface</item>
+        <item name="colorOnSurface">@color/white</item>
+        <item name="colorError">@color/darkThemeRed</item>
+        <item name="colorOnError">@color/black</item>
     </style>
+
+    <style name="Theme.ItemLedger.ActionBarPopUp" parent="ThemeOverlay.MaterialComponents.Dark" />
 </resources>

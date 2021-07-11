@@ -7,10 +7,21 @@
         <item name="colorOnPrimary">@color/primaryTextColor</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/secondaryColor</item>
-        <item name="colorSecondaryVariant">@color/secondaryLightColor</item>
+        <item name="colorSecondaryVariant">@color/secondaryDarkColor</item>
         <item name="colorOnSecondary">@color/secondaryTextColor</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="android:colorBackground">@color/white</item>
+        <item name="colorOnBackground">@color/black</item>
+        <item name="colorPrimarySurface">@color/white</item>
+        <item name="colorOnPrimarySurface">@color/black</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="colorOnSurface">@color/black</item>
+        <item name="colorError">@color/red</item>
+        <item name="colorOnError">@color/white</item>
     </style>
+
+    <style name="Theme.ItemLedger.ActionBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.ItemLedger.ActionBarPopUp" parent="ThemeOverlay.MaterialComponents.Light" />
 </resources>

@@ -16,7 +16,9 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/inapp_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"/>
+            android:layout_height="?attr/actionBarSize"
+            android:theme="@style/Theme.ItemLedger.ActionBar"
+            app:popupTheme="@style/Theme.ItemLedger.ActionBarPopUp" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -36,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         app:layout_constraintTop_toBottomOf="parent"
-        style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
+        style="@style/Widget.MaterialComponents.BottomAppBar.PrimarySurface"
         app:fabAlignmentMode="end"
         android:layout_below="@+id/inapp_nav_host"
         android:layout_alignParentBottom="true">
@@ -46,7 +48,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="124dp"
-            style="@style/Widget.MaterialComponents.BottomNavigationView.Colored"
+            android:background="#00000000"
+            style="@style/Widget.MaterialComponents.BottomNavigationView.PrimarySurface"
             app:menu="@menu/inapp_bottom_menu"
             app:elevation="0dp"
             android:layout_alignParentBottom="true" />

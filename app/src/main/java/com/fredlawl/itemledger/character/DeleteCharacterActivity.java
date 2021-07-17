@@ -53,7 +53,7 @@ public class DeleteCharacterActivity extends AppCompatActivity {
         binding.actvCharacter.setAdapter(adapter);
         binding.actvCharacter.setOnItemClickListener((adapterView, view, i, l) -> {
             Character selectedCharacter = (Character) adapterView.getItemAtPosition(i);
-            binding.actvCharacter.setText(selectedCharacter.getNamePart().toString());
+            binding.actvCharacter.setText(selectedCharacter.getNamePart().toString(), false);
             binding.bSubmit.setEnabled(true);
             binding.bSubmit.setOnClickListener((v) -> {
                 onCharacterDelete(selectedCharacter);

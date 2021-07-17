@@ -226,7 +226,7 @@ public class NewTransactionFormFragment extends Fragment {
                         if (diff.compareTo(InventoryItem.MAX_QUANTITY) > 0) {
                             String error = String.format(
                                 getString(R.string.new_transaction_form_quantity_max_inventory),
-                                diff.subtract(InventoryItem.MAX_QUANTITY).toPlainString());
+                                parsedQuantity.toPlainString());
                             quantityTextLayout.setError(error);
                             return;
                         }

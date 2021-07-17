@@ -25,8 +25,6 @@ import java.util.Objects;
 import static com.fredlawl.itemledger.SharedPrefConstants.FILE;
 
 public class NewCharacterFormFragment extends Fragment {
-
-    private CharacterCreatedListener characterCreatedListener;
     private FragmentNewCharacterFormBinding binding;
 
     @Override
@@ -113,13 +111,5 @@ public class NewCharacterFormFragment extends Fragment {
     public void onDestroyView() {
         binding = null;
         super.onDestroyView();
-    }
-
-    public void setOnCharacterCreatedListener(CharacterCreatedListener listener) {
-        this.characterCreatedListener = listener;
-    }
-
-    public interface CharacterCreatedListener {
-        void onCharacterCreated(Character character);
     }
 }

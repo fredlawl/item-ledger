@@ -7,7 +7,6 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.fredlawl.itemledger.character.NewCharacterFormFragment;
 import com.fredlawl.itemledger.databinding.ActivityAppStartBinding;
 
 import static com.fredlawl.itemledger.SharedPrefConstants.FILE;

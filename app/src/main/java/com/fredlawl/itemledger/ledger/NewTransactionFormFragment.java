@@ -44,6 +44,8 @@ public class NewTransactionFormFragment extends Fragment {
     private TextInputLayout quantityTextLayout;
     private TextInputLayout itemTextLayout;
     private TextInputLayout memoTextLayout;
+    private SharedPreferences preferences;
+    private UUID currentCharacterId;
 
     @Override
     public View onCreateView(
@@ -51,6 +53,10 @@ public class NewTransactionFormFragment extends Fragment {
             Bundle savedInstanceState
     ) {
         binding = FragmentNewTransactionFormBinding.inflate(inflater, container, false);
+        preferences = getContext().getSharedPreferences(FILE, Context.MODE_PRIVATE);
+
+        // todo: Consider kicking user back to the new character activity if this is not set cuz this is pretty important on app start
+        currentCharacterId = UUID.fromString(preferences.getString(SELECTED_CHARACTER_ID, UUID.randomUUID().toString()));
 
         transactionDateTextLayout = binding.tTransactionDate;
         sessionTextLayout = binding.tSession;
@@ -58,9 +64,10 @@ public class NewTransactionFormFragment extends Fragment {
         itemTextLayout = binding.tItem;
         memoTextLayout = binding.tMemo;
 
+
         AppDatabase db = AppDatabase.getInstance(getContext());
         InventoryDao dao = db.inventoryDao();
-        String[] inventorySuggestions = dao.getNames().toArray(new String[0]);
+        String[] inventorySuggestions = dao.getNames(currentCharacterId).toArray(new String[0]);
 
         ArrayAdapter<String> adapter  = new ArrayAdapter<>(getContext(), android.R.layout.select_dialog_item, inventorySuggestions);
         ((AutoCompleteTextView) itemTextLayout.getEditText()).setAdapter(adapter);
@@ -78,14 +85,9 @@ public class NewTransactionFormFragment extends Fragment {
         final SimpleDateFormat dateFmt = new SimpleDateFormat("MM/dd/yyyy");
         AppDatabase db = AppDatabase.getInstance(getContext());
 
-        SharedPreferences preferences = getContext().getSharedPreferences(FILE, Context.MODE_PRIVATE);
-
         // Get the previous session used from the last transaction
         int setSessionId = preferences.getInt(CURRENT_SESSION, 0);
         sessionTextLayout.getEditText().setText(String.valueOf(setSessionId));
-
-        // todo: Consider kicking user back to the new character activity if this is not set cuz this is pretty important on app start
-        UUID currentCharacter = UUID.fromString(preferences.getString(SELECTED_CHARACTER_ID, UUID.randomUUID().toString()));
 
         transactionDateTextLayout.getEditText().setText(dateFmt.format(calendar.getTime()));
 
@@ -172,14 +174,14 @@ public class NewTransactionFormFragment extends Fragment {
             TransactionDao dao = db.transactionDao();
             CharacterDao characterDao = db.characterDao();
 
-            newTransaction.setCharacterId(currentCharacter);
+            newTransaction.setCharacterId(currentCharacterId);
             newTransaction.setItem(item);
             newTransaction.setMemo(memo);
             newTransaction.setTransactionOn(calendar.toInstant());
 
             // Handle the case where we're trying to withdrawal more than we have available
             if (newTransaction.getQuantity() < 0) {
-                Optional<InventoryItem> foundItem = characterDao.getItemByName(currentCharacter, item);
+                Optional<InventoryItem> foundItem = characterDao.getItemByName(currentCharacterId, item);
                 if (!foundItem.isPresent()) {
                     Snackbar.make(
                         getActivity().findViewById(R.id.inapp_layout),

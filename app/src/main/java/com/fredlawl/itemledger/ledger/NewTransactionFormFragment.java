@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,15 +21,20 @@ import com.fredlawl.itemledger.R;
 import com.fredlawl.itemledger.dao.AppDatabase;
 import com.fredlawl.itemledger.dao.CharacterDao;
 import com.fredlawl.itemledger.dao.InventoryDao;
-import com.fredlawl.itemledger.dao.InventoryItem;
+import com.fredlawl.itemledger.entity.InventoryItem;
 import com.fredlawl.itemledger.dao.TransactionDao;
 import com.fredlawl.itemledger.databinding.FragmentNewTransactionFormBinding;
 import com.fredlawl.itemledger.entity.Transaction;
+import com.fredlawl.itemledger.util.InputTextRangeFilter;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
@@ -55,7 +61,7 @@ public class NewTransactionFormFragment extends Fragment {
         binding = FragmentNewTransactionFormBinding.inflate(inflater, container, false);
         preferences = getContext().getSharedPreferences(FILE, Context.MODE_PRIVATE);
 
-        // todo: Consider kicking user back to the new character activity if this is not set cuz this is pretty important on app start
+        // todo: Figure out how to pass current character state down to the fragment from the parent activity
         currentCharacterId = UUID.fromString(preferences.getString(SELECTED_CHARACTER_ID, UUID.randomUUID().toString()));
 
         transactionDateTextLayout = binding.tTransactionDate;
@@ -72,6 +78,16 @@ public class NewTransactionFormFragment extends Fragment {
         ArrayAdapter<String> adapter  = new ArrayAdapter<>(getContext(), android.R.layout.select_dialog_item, inventorySuggestions);
         ((AutoCompleteTextView) itemTextLayout.getEditText()).setAdapter(adapter);
         ((AutoCompleteTextView) itemTextLayout.getEditText()).setThreshold(1);
+
+        List<InputFilter> sessionInputFilters = new ArrayList<>(Arrays.asList(sessionTextLayout.getEditText().getFilters()));
+        sessionInputFilters.add(new InputTextRangeFilter(Transaction.MIN_SESSION, Transaction.MAX_SESSION));
+        InputFilter[] sessionFiltersArray = new InputFilter[sessionInputFilters.size()];
+        sessionTextLayout.getEditText().setFilters(sessionInputFilters.toArray(sessionFiltersArray));
+
+        List<InputFilter> quantityInputFilters = new ArrayList<>(Arrays.asList(quantityTextLayout.getEditText().getFilters()));
+        quantityInputFilters.add(new InputTextRangeFilter(Transaction.MIN_QUANTITY, Transaction.MAX_QUANTITY));
+        InputFilter[] quantityFiltersArray = new InputFilter[quantityInputFilters.size()];
+        quantityTextLayout.getEditText().setFilters(quantityInputFilters.toArray(quantityFiltersArray));
 
         return binding.getRoot();
     }
@@ -141,20 +157,6 @@ public class NewTransactionFormFragment extends Fragment {
                 }
             }
 
-            String quantity = Objects.toString(quantityTextLayout.getEditText().getText(), "");
-            if (quantity.isEmpty()) {
-                quantityTextLayout.setError(getString(R.string.validation_required));
-                hasErrors = true;
-            } else {
-                try {
-                    int parsedQuantity = Integer.parseInt(quantity);
-                    newTransaction.setQuantity(parsedQuantity);
-                } catch (NumberFormatException nfe) {
-                    quantityTextLayout.setError(getString(R.string.validation_integer));
-                    hasErrors = true;
-                }
-            }
-
             String item = Objects.toString(itemTextLayout.getEditText().getText(), "");
             if (item.isEmpty()) {
                 itemTextLayout.setError(getString(R.string.validation_required));
@@ -179,29 +181,58 @@ public class NewTransactionFormFragment extends Fragment {
             newTransaction.setMemo(memo);
             newTransaction.setTransactionOn(calendar.toInstant());
 
-            // Handle the case where we're trying to withdrawal more than we have available
-            if (newTransaction.getQuantity() < 0) {
-                Optional<InventoryItem> foundItem = characterDao.getItemByName(currentCharacterId, item);
-                if (!foundItem.isPresent()) {
-                    Snackbar.make(
-                        getActivity().findViewById(R.id.inapp_layout),
-                        R.string.new_transaction_form_item_error_message,
-                        Snackbar.LENGTH_SHORT)
-                        .setAnchorView(R.id.fbNewTransaction)
-                        .show();
-                    return;
-                }
+            Optional<InventoryItem> foundItem = characterDao.getItemByName(currentCharacterId, item);
+            String quantity = Objects.toString(quantityTextLayout.getEditText().getText(), "");
+            if (quantity.isEmpty()) {
+                quantityTextLayout.setError(getString(R.string.validation_required));
+                return;
+            } else {
+                try {
+                    BigDecimal parsedQuantity = new BigDecimal(quantity);
 
-                int currentQuantity = foundItem.get().getQuantity();
-                int diff = currentQuantity + newTransaction.getQuantity();
-                if (diff < 0) {
-                    String error = String.format(
-                        getString(R.string.new_transaction_form_quantity_insufficient_funds),
-                        -diff);
-                    quantityTextLayout.setError(error);
+                    // Handle the case where we're trying to withdrawal more than we have available
+                    if (parsedQuantity.compareTo(BigDecimal.ZERO) < 0) {
+                        if (!foundItem.isPresent()) {
+                            Snackbar.make(
+                                getActivity().findViewById(R.id.inapp_layout),
+                                R.string.new_transaction_form_item_error_message,
+                                Snackbar.LENGTH_SHORT)
+                                .setAnchorView(R.id.fbNewTransaction)
+                                .show();
+                            return;
+                        }
+
+                        BigDecimal currentQuantity = new BigDecimal(foundItem.get().getQuantity());
+                        BigDecimal diff = currentQuantity.add(parsedQuantity);
+                        if (diff.compareTo(BigDecimal.ZERO) < 0) {
+                            String error = String.format(
+                                getString(R.string.new_transaction_form_quantity_insufficient_funds),
+                                diff.multiply(new BigDecimal("-1")).toPlainString());
+                            quantityTextLayout.setError(error);
+                            return;
+                        }
+                    }
+
+                    // Handle the case where we prevent a overflow
+                    if (foundItem.isPresent()) {
+                        BigDecimal currentQuantity = new BigDecimal(foundItem.get().getQuantity());
+                        BigDecimal diff = currentQuantity.add(parsedQuantity);
+                        if (diff.compareTo(InventoryItem.MAX_QUANTITY) > 0) {
+                            String error = String.format(
+                                getString(R.string.new_transaction_form_quantity_max_inventory),
+                                diff.subtract(InventoryItem.MAX_QUANTITY).toPlainString());
+                            quantityTextLayout.setError(error);
+                            return;
+                        }
+                    }
+
+                    newTransaction.setQuantity(parsedQuantity.toBigInteger().intValue());
+                } catch (NumberFormatException nfe) {
+                    quantityTextLayout.setError(getString(R.string.validation_integer));
                     return;
                 }
             }
+
 
             dao.insert(newTransaction);
 

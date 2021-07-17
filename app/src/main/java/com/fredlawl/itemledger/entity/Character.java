@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.time.Instant;
@@ -59,6 +60,7 @@ public class Character {
         savedSession = 0;
     }
 
+    @Ignore
     public Character(UUID id) {
         this();
         this.id = id;

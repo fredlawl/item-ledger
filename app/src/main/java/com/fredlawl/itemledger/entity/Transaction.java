@@ -5,6 +5,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -13,6 +14,12 @@ import lombok.Data;
 @Data
 @Entity
 public class Transaction {
+    public static final BigDecimal MIN_SESSION = new BigDecimal("0");
+    public static final BigDecimal MAX_SESSION = new BigDecimal("9999");
+
+    public static final BigDecimal MIN_QUANTITY = new BigDecimal("-999999");
+    public static final BigDecimal MAX_QUANTITY = new BigDecimal("999999");
+
     @PrimaryKey
     @NonNull
     private UUID id;

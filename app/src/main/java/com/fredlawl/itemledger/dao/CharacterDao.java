@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import com.fredlawl.itemledger.entity.Character;
+import com.fredlawl.itemledger.entity.InventoryItem;
 import com.fredlawl.itemledger.entity.Transaction;
 
 import java.util.List;

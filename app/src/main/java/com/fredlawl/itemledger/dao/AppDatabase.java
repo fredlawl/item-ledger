@@ -10,6 +10,7 @@ import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.fredlawl.itemledger.entity.Character;
+import com.fredlawl.itemledger.entity.InventoryItem;
 import com.fredlawl.itemledger.entity.Transaction;
 
 @Database(

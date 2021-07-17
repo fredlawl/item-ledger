@@ -42,10 +42,10 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Inve
         void onItemClick(View view, int position);
     }
 
-    private final List<com.fredlawl.itemledger.dao.InventoryItem> inventoryItems;
+    private final List<com.fredlawl.itemledger.entity.InventoryItem> inventoryItems;
     private ItemClickListener clickListener;
 
-    public InventoryAdapter(List<com.fredlawl.itemledger.dao.InventoryItem> inventoryItems) {
+    public InventoryAdapter(List<com.fredlawl.itemledger.entity.InventoryItem> inventoryItems) {
         this.inventoryItems = inventoryItems;
     }
 
@@ -59,7 +59,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Inve
 
     @Override
     public void onBindViewHolder(InventoryAdapter.InventoryItem viewHolder, final int position) {
-        com.fredlawl.itemledger.dao.InventoryItem item = inventoryItems.get(position);
+        com.fredlawl.itemledger.entity.InventoryItem item = inventoryItems.get(position);
 
         viewHolder.getItem().setText(item.getItem());
 

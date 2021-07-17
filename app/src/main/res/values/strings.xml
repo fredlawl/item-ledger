@@ -32,7 +32,8 @@
     <string name="new_transaction_form.session.text">0</string>
     <string name="new_transaction_form.quantity.hint">Quantity</string>
     <string name="new_transaction_form.quantity.text">1</string>
-    <string name="new_transaction_form.quantity.insufficient_funds">Overdraft of %d</string>
+    <string name="new_transaction_form.quantity.insufficient_funds">Overdraft of %s</string>
+    <string name="new_transaction_form.quantity.max_inventory">Quantity exceeds max inventory of item by %s</string>
     <string name="new_transaction_form.item.hint">Item</string>
     <string name="new_transaction_form.memo.hint">Memo</string>
     <string name="new_transaction_form.button.cancel">Cancel</string>

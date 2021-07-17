@@ -1,26 +1,28 @@
-package com.fredlawl.itemledger.dao;
+package com.fredlawl.itemledger.entity;
 
 import androidx.room.ColumnInfo;
 import androidx.room.DatabaseView;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
-import lombok.AccessLevel;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter
+@NoArgsConstructor
+@Data
 @DatabaseView("SELECT t.character_id, t.item, SUM(t.quantity) AS qty "
             + "FROM `Transaction` t "
             + "GROUP BY t.character_id, t.item")
 public class InventoryItem {
+    public static final BigDecimal MAX_QUANTITY = Transaction.MAX_QUANTITY;
+
     @ColumnInfo(name = "character_id")
-    protected UUID characterId;
+    private UUID characterId;
 
     @ColumnInfo(name = "item")
-    protected String item;
+    private String item;
 
     @ColumnInfo(name = "qty")
-    protected int quantity;
+    private int quantity;
 }

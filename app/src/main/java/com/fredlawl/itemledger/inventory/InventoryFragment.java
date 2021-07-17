@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.fredlawl.itemledger.R;
 import com.fredlawl.itemledger.dao.AppDatabase;
 import com.fredlawl.itemledger.dao.CharacterDao;
-import com.fredlawl.itemledger.dao.InventoryItem;
+import com.fredlawl.itemledger.entity.InventoryItem;
 import com.fredlawl.itemledger.databinding.FragmentInventoryBinding;
 import com.google.android.material.textfield.TextInputLayout;
 

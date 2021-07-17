@@ -3,26 +3,24 @@ package com.fredlawl.itemledger.character;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 
 import com.fredlawl.itemledger.R;
 import com.fredlawl.itemledger.dao.AppDatabase;
 import com.fredlawl.itemledger.dao.CharacterDao;
 import com.fredlawl.itemledger.entity.Character;
 
-import java.util.Optional;
+import java.util.List;
 
 public class ChooseCharacterDialog {
-    private SharedPreferences preferences;
     private CharacterChosenListener chosenListener;
     private CharacterNotChosenListener notChosenListener;
+    private ChangeCharacter characterChanger;
 
-    public static ChooseCharacterDialog builder(SharedPreferences preferences) {
-        return new ChooseCharacterDialog(preferences);
+    public static ChooseCharacterDialog builder() {
+        return new ChooseCharacterDialog();
     }
 
-    protected ChooseCharacterDialog(SharedPreferences preferences) {
-        this.preferences = preferences;
+    protected ChooseCharacterDialog() {
     }
 
     public ChooseCharacterDialog setOnCharacterChosenListener(CharacterChosenListener listener) {
@@ -35,35 +33,28 @@ public class ChooseCharacterDialog {
         return this;
     }
 
+    public ChooseCharacterDialog setChangeCharacterService(ChangeCharacter characterChanger) {
+        this.characterChanger = characterChanger;
+        return this;
+    }
+
     public AlertDialog create(Context context) {
         AppDatabase db = AppDatabase.getInstance(context);
         CharacterDao dao = db.characterDao();
 
-        // TODO: I don't want to deal with a full list adapter right now, so we'll encode the characters
-        //  this will mean a huge performance boost too cus we don't need to perform an extra character
-        //  lookup to get the UUID, and don't have to worry about character names or campaigns with
-        //  the pattern <space><hyphen><space> in them.
-        String[] characters = dao.getAll().stream()
-                .map(Character::encode)
-                .toArray(String[]::new);
+        List<Character> allCharacters = dao.getAll();
+        ChooseCharacterDialogListAdapter adapter =
+            new ChooseCharacterDialogListAdapter(context, allCharacters);
 
         AlertDialog dialog = new AlertDialog.Builder(context)
             .setTitle(R.string.choose_character_dialog_title)
-            .setItems(characters, (DialogInterface.OnClickListener) (d, which) -> {
-                String selectedCharacter = characters[which];
-                Character.NamePart namePart = Character.extractNamePart(selectedCharacter);
-                Optional<Character> foundCharacter = dao.getByNameAndCampaign(namePart.getCharacter(), namePart.getCampaign());
-                if (!foundCharacter.isPresent()) {
-                    if (this.notChosenListener != null) {
-                        this.notChosenListener.onNotChooseCharacter();
-                    }
-                    d.cancel();
-                    return;
-                }
+            .setAdapter(adapter, (DialogInterface.OnClickListener) (d, which) -> {
+                Character selectedCharacter = allCharacters.get(which);
 
-                Character character = foundCharacter.get();
-                boolean characterChanged = new ChangeCharacter(dao, preferences)
-                        .changeCharacter(character.getId());
+                boolean characterChanged = false;
+                if (characterChanger != null) {
+                    characterChanged = characterChanger.changeCharacter(selectedCharacter);
+                }
 
                 if (!characterChanged) {
                     if (this.notChosenListener != null) {
@@ -71,7 +62,7 @@ public class ChooseCharacterDialog {
                     }
                 } else {
                     if (this.chosenListener != null) {
-                        this.chosenListener.onChooseCharacter(character);
+                        this.chosenListener.onChooseCharacter(selectedCharacter);
                     }
                 }
             })

@@ -52,7 +52,8 @@ public class NewCharacterFormFragment extends Fragment {
 
         binding.actionChooseCharacter.setOnClickListener((v) -> {
             AlertDialog dialog = ChooseCharacterDialog
-                .builder(preferences)
+                .builder()
+                .setChangeCharacterService(new PreferenceBasedChangeCharacter(dao, preferences))
                 .setOnCharacterChosenListener((c) -> {
                     Intent k = new Intent(getActivity(), InAppActivity.class);
                     startActivity(k);
@@ -99,8 +100,8 @@ public class NewCharacterFormFragment extends Fragment {
 
             dao.insert(newCharacter);
 
-            new ChangeCharacter(dao, preferences)
-                .changeCharacter(newCharacter.getId());
+            new PreferenceBasedChangeCharacter(dao, preferences)
+                .changeCharacter(newCharacter);
 
             Intent k = new Intent(getActivity(), InAppActivity.class);
             startActivity(k);

@@ -17,6 +17,8 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.fredlawl.itemledger.character.ChooseCharacterDialog;
 import com.fredlawl.itemledger.character.DeleteCharacterActivity;
+import com.fredlawl.itemledger.character.PreferenceBasedChangeCharacter;
+import com.fredlawl.itemledger.dao.AppDatabase;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -93,10 +95,6 @@ public class InAppActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-
         if (id == R.id.action_choose_character) {
             handleOnChooseCharacter();
         }
@@ -116,7 +114,9 @@ public class InAppActivity extends AppCompatActivity {
 
     private void handleOnChooseCharacter() {
         AlertDialog dialog = ChooseCharacterDialog
-            .builder(preferences)
+            .builder()
+            .setChangeCharacterService(new PreferenceBasedChangeCharacter(
+                AppDatabase.getInstance(this).characterDao(), preferences))
             .setOnCharacterChosenListener((c) -> {
                 finish();
                 startActivity(getIntent());

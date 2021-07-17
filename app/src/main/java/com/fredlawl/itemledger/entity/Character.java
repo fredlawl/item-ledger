@@ -1,5 +1,7 @@
 package com.fredlawl.itemledger.entity;
 
+import android.content.SharedPreferences;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -16,12 +18,14 @@ import lombok.Getter;
 
 @Data
 @Entity
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Character {
     public static final String ENCODING_SEPARATOR = " - ";
     public static final int ENCODING_SEPARATOR_LENGTH = ENCODING_SEPARATOR.length();
 
     @PrimaryKey
     @NonNull
+    @EqualsAndHashCode.Include
     private UUID id;
 
     @ColumnInfo(name = "character")
@@ -55,8 +59,13 @@ public class Character {
         savedSession = 0;
     }
 
+    public Character(UUID id) {
+        this();
+        this.id = id;
+    }
+
     public String encode() {
-        return character + ENCODING_SEPARATOR + campaign;
+        return getNamePart().toString();
     }
 
     public NamePart getNamePart() {
@@ -67,7 +76,12 @@ public class Character {
     @Getter
     @AllArgsConstructor
     public static class NamePart {
-        private String character;
-        private String campaign;
+        private final String character;
+        private final String campaign;
+
+        @Override
+        public String toString() {
+            return character + ENCODING_SEPARATOR + campaign;
+        }
     }
 }

@@ -21,6 +21,7 @@ import com.fredlawl.itemledger.R;
 import com.fredlawl.itemledger.dao.AppDatabase;
 import com.fredlawl.itemledger.dao.CharacterDao;
 import com.fredlawl.itemledger.dao.InventoryDao;
+import com.fredlawl.itemledger.entity.Character;
 import com.fredlawl.itemledger.entity.InventoryItem;
 import com.fredlawl.itemledger.dao.TransactionDao;
 import com.fredlawl.itemledger.databinding.FragmentNewTransactionFormBinding;
@@ -52,17 +53,25 @@ public class NewTransactionFormFragment extends Fragment {
     private TextInputLayout memoTextLayout;
     private SharedPreferences preferences;
     private UUID currentCharacterId;
+    private Character currentCharacter;
+    private AppDatabase db;
 
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
+        db = AppDatabase.getInstance(getContext());
+        InventoryDao inventoryDao = db.inventoryDao();
+        CharacterDao characterDao = db.characterDao();
+
         binding = FragmentNewTransactionFormBinding.inflate(inflater, container, false);
         preferences = getContext().getSharedPreferences(FILE, Context.MODE_PRIVATE);
 
         // todo: Figure out how to pass current character state down to the fragment from the parent activity
         currentCharacterId = UUID.fromString(preferences.getString(SELECTED_CHARACTER_ID, UUID.randomUUID().toString()));
+        Optional<Character> foundCharacter = characterDao.getById(currentCharacterId);
+        foundCharacter.ifPresent(character -> currentCharacter = character);
 
         transactionDateTextLayout = binding.tTransactionDate;
         sessionTextLayout = binding.tSession;
@@ -71,9 +80,7 @@ public class NewTransactionFormFragment extends Fragment {
         memoTextLayout = binding.tMemo;
 
 
-        AppDatabase db = AppDatabase.getInstance(getContext());
-        InventoryDao dao = db.inventoryDao();
-        String[] inventorySuggestions = dao.getNames(currentCharacterId).toArray(new String[0]);
+        String[] inventorySuggestions = inventoryDao.getNames(currentCharacter.getCampaign()).toArray(new String[0]);
 
         ArrayAdapter<String> adapter  = new ArrayAdapter<>(getContext(), android.R.layout.select_dialog_item, inventorySuggestions);
         ((AutoCompleteTextView) itemTextLayout.getEditText()).setAdapter(adapter);
@@ -99,7 +106,6 @@ public class NewTransactionFormFragment extends Fragment {
 
         final Calendar calendar = Calendar.getInstance();
         final SimpleDateFormat dateFmt = new SimpleDateFormat("MM/dd/yyyy");
-        AppDatabase db = AppDatabase.getInstance(getContext());
 
         // Get the previous session used from the last transaction
         int setSessionId = preferences.getInt(CURRENT_SESSION, 0);

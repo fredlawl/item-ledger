@@ -43,8 +43,8 @@ public class ChooseCharacterDialog {
         CharacterDao dao = db.characterDao();
 
         List<Character> allCharacters = dao.getAll();
-        ChooseCharacterDialogListAdapter adapter =
-            new ChooseCharacterDialogListAdapter(context, allCharacters);
+        ChooseCharacterListAdapter adapter =
+            new ChooseCharacterListAdapter(context, allCharacters);
 
         AlertDialog dialog = new AlertDialog.Builder(context)
             .setTitle(R.string.choose_character_dialog_title)

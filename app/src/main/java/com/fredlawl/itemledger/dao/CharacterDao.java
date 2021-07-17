@@ -32,14 +32,11 @@ public interface CharacterDao {
     @Query("SELECT * FROM character WHERE id = :characterId")
     Optional<Character> getById(UUID characterId);
 
-    @Query("SELECT * FROM character WHERE character = :name AND campaign = :campaign ORDER BY created_on ASC, character ASC, campaign ASC")
-    Optional<Character> getByNameAndCampaign(String name, String campaign);
-
     @Query("SELECT COUNT(*) FROM Character")
     int hasCharacters();
 
-    @Query("DELETE FROM Character WHERE character = :name AND campaign = :campaign")
-    void deleteCharacterByNameAndCampaign(String name, String campaign);
+    @Query("DELETE FROM Character WHERE id = :characterId")
+    void delete(UUID characterId);
 
     @Query("SELECT * FROM InventoryItem WHERE character_id = :characterId AND item = :itemName AND qty > 0")
     Optional<InventoryItem> getItemByName(UUID characterId, String itemName);

@@ -11,9 +11,9 @@ import com.fredlawl.itemledger.entity.Character;
 
 import java.util.List;
 
-public class ChooseCharacterDialogListAdapter extends ArrayAdapter<Character> {
+public class ChooseCharacterListAdapter extends ArrayAdapter<Character> {
 
-    public ChooseCharacterDialogListAdapter(Context context, List<Character> characterList) {
+    public ChooseCharacterListAdapter(Context context, List<Character> characterList) {
         super(context, android.R.layout.simple_list_item_1, characterList);
     }
 

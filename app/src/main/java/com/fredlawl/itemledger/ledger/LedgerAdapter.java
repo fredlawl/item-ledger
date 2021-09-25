@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.fredlawl.itemledger.R;
 import com.fredlawl.itemledger.entity.Transaction;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -64,10 +65,10 @@ public class LedgerAdapter extends RecyclerView.Adapter<LedgerAdapter.LedgerItem
         viewHolder.getMemo().setText(transaction.getMemo());
         viewHolder.getSession().setText(String.valueOf(transaction.getSession()));
 
-        int quantity = transaction.getQuantity();
+        BigDecimal quantity = transaction.getQuantity();
         String quantityFmt = String.valueOf(quantity);
-        if (quantity < 0) {
-            quantityFmt = "(" + (-quantity) + ")";
+        if (quantity.compareTo(BigDecimal.ZERO) < 0) {
+            quantityFmt = "(" + (quantity.abs()) + ")";
             viewHolder.getQuantity().setTextColor(getColor(viewHolder.getQuantity().getContext(), R.color.ledgerDebt));
         } else {
             viewHolder.getQuantity().setTextColor(getColor(viewHolder.getQuantity().getContext(), R.color.ledgerCredit));

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fredlawl.itemledger.R;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import lombok.Getter;
@@ -63,8 +64,8 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Inve
 
         viewHolder.getItem().setText(item.getItem());
 
-        int quantity = item.getQuantity();
-        String quantityFmt = String.valueOf(quantity);
+        BigDecimal quantity = item.getQuantity();
+        String quantityFmt = quantity.toString();
         viewHolder.getQuantity().setText(quantityFmt);
     }
 

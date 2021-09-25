@@ -14,7 +14,7 @@ import com.fredlawl.itemledger.entity.InventoryItem;
 import com.fredlawl.itemledger.entity.Transaction;
 
 @Database(
-version = 2,
+version = 3,
 entities = {
     Character.class,
     Transaction.class
@@ -22,7 +22,8 @@ entities = {
 views = {InventoryItem.class})
 @TypeConverters({
     UUIDConverter.class,
-    InstantConverter.class
+    InstantConverter.class,
+    BigDecimalConverter.class
 })
 public abstract class AppDatabase extends RoomDatabase {
     public static final String DB_NAME = "itemledger.db";
@@ -40,6 +41,7 @@ public abstract class AppDatabase extends RoomDatabase {
         return Room.databaseBuilder(context, AppDatabase.class, DB_NAME)
             .allowMainThreadQueries()
             .addMigrations(MIGRATION_1_2)
+            .addMigrations(MIGRATION_2_3)
             .build();
     }
 
@@ -49,6 +51,28 @@ public abstract class AppDatabase extends RoomDatabase {
             database.execSQL("ALTER TABLE Character ADD COLUMN saved_session INTEGER NOT NULL DEFAULT 0");
         }
     };
+
+    private static final Migration MIGRATION_2_3 = new Migration(2, 3) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            String currentTransactionTable = "Transaction";
+            String tmpTransactionTable = "Transaction_MigrationTmp";
+            String inventoryViewTable = "InventoryItem";
+            database.beginTransaction();
+            try {
+                database.execSQL("DROP VIEW IF EXISTS `" + inventoryViewTable + "`");
+                database.execSQL("CREATE TABLE IF NOT EXISTS `" + tmpTransactionTable + "` (`id` TEXT NOT NULL, `character_id` TEXT NOT NULL, `session` INTEGER NOT NULL DEFAULT 0, `item` TEXT NOT NULL, `quantity` TEXT, `transaction_on` INTEGER NOT NULL, `memo` TEXT NOT NULL, `created_on` INTEGER NOT NULL, PRIMARY KEY(`id`))");
+                database.execSQL("INSERT INTO `" + tmpTransactionTable + "` SELECT * FROM `" + currentTransactionTable + "`");
+                database.execSQL("DROP TABLE `" + currentTransactionTable + "`");
+                database.execSQL("ALTER TABLE `" + tmpTransactionTable + "` RENAME TO `" + currentTransactionTable + "`");
+                database.execSQL("CREATE VIEW `" + inventoryViewTable + "` AS SELECT t.character_id, t.item, SUM(t.quantity) AS qty FROM `Transaction` t GROUP BY t.character_id, t.item");
+                database.setTransactionSuccessful();
+            } finally {
+                database.endTransaction();
+            }
+        }
+    };
+
 
     protected AppDatabase() {}
 

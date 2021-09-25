@@ -24,5 +24,5 @@ public class InventoryItem {
     private String item;
 
     @ColumnInfo(name = "qty")
-    private int quantity;
+    private BigDecimal quantity;
 }

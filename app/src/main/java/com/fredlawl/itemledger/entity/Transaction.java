@@ -10,6 +10,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 import lombok.Data;
+import lombok.Getter;
 
 @Data
 @Entity
@@ -36,7 +37,7 @@ public class Transaction {
     private String item;
 
     @ColumnInfo(name = "quantity")
-    private int quantity;
+    private BigDecimal quantity;
 
     @ColumnInfo(name = "transaction_on")
     @NonNull
@@ -55,6 +56,6 @@ public class Transaction {
         Instant now = Instant.now();
         transactionOn = now;
         createdOn = now;
-        quantity = 1;
+        quantity = BigDecimal.ONE;
     }
 }

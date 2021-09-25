@@ -68,7 +68,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/new_transaction_form.quantity.hint"
-                    android:inputType="numberSigned"
+                    android:inputType="numberDecimal|numberSigned"
                     android:text="@string/new_transaction_form.quantity.text"
                     android:selectAllOnFocus="true"
                     android:importantForAutofill="no" />

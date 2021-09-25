@@ -198,7 +198,7 @@ public class NewTransactionFormFragment extends Fragment {
 
                     // Handle the case where we're trying to withdrawal more than we have available
                     if (parsedQuantity.compareTo(BigDecimal.ZERO) < 0) {
-                        if (!foundItem.isPresent()) {
+                        if (!foundItem.isPresent() && parsedQuantity.compareTo(BigDecimal.ZERO) < 0) {
                             Snackbar.make(
                                 getActivity().findViewById(R.id.inapp_layout),
                                 R.string.new_transaction_form_item_error_message,
@@ -208,7 +208,7 @@ public class NewTransactionFormFragment extends Fragment {
                             return;
                         }
 
-                        BigDecimal currentQuantity = new BigDecimal(foundItem.get().getQuantity());
+                        BigDecimal currentQuantity = foundItem.get().getQuantity();
                         BigDecimal diff = currentQuantity.add(parsedQuantity);
                         if (diff.compareTo(BigDecimal.ZERO) < 0) {
                             String error = String.format(
@@ -221,7 +221,7 @@ public class NewTransactionFormFragment extends Fragment {
 
                     // Handle the case where we prevent a overflow
                     if (foundItem.isPresent()) {
-                        BigDecimal currentQuantity = new BigDecimal(foundItem.get().getQuantity());
+                        BigDecimal currentQuantity = foundItem.get().getQuantity();
                         BigDecimal diff = currentQuantity.add(parsedQuantity);
                         if (diff.compareTo(InventoryItem.MAX_QUANTITY) > 0) {
                             String error = String.format(
@@ -232,7 +232,7 @@ public class NewTransactionFormFragment extends Fragment {
                         }
                     }
 
-                    newTransaction.setQuantity(parsedQuantity.toBigInteger().intValue());
+                    newTransaction.setQuantity(parsedQuantity);
                 } catch (NumberFormatException nfe) {
                     quantityTextLayout.setError(getString(R.string.validation_integer));
                     return;

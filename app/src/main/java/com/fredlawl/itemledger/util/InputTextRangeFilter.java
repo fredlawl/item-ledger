@@ -28,7 +28,7 @@ public class InputTextRangeFilter implements InputFilter {
                 + source.subSequence(sourceStart, sourceEnd).toString()
                 + destination.subSequence(destEnd, destination.length());
 
-            if (input.equals("-")) {
+            if (input.equals("-") || input.equals(".")) {
                 return null;
             }
 
